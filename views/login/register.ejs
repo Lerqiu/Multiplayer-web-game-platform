@@ -1,0 +1,33 @@
+<html>
+
+<head>
+    <title>Rejestracja</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="login-css.css">
+</head>
+
+<body>
+<div class="centerContainer">
+    <div >
+        <h3>Rejestracja</h3>
+        <form method="POST">
+            <label>
+                Nick:
+            </label>
+            <br>
+            <input type="text" name="nick" value="<%= locals.nick %>">
+            <br>
+            <input type="password" name="password">
+            <br>
+            <input type="submit" value="Zarejestruj się">
+        </form>
+        <% if (locals.registerError){ %>
+            <p>
+                <%= locals.registerError %>
+            </p>
+            <% } %>
+    </div>
+</div>
+</body>
+
+</html>

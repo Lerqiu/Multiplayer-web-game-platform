@@ -1,0 +1,13 @@
+body {
+  background-color: #63b8ff;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.topContainer {
+  display: flex;
+  justify-content: center;
+}

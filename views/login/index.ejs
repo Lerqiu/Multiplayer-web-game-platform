@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>Granko</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="login-css.css">
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="standartContainer">
+            <h3>Bez logowania</h3>
+            <form method="POST" action="/login_anonymous">
+                <label>
+                    Nick:
+                </label>
+                <br>
+                <input type="text" name="nick">
+                <br>
+                <input type="submit" value="Dostęp anonimowy">
+            </form>
+            <% if (locals.loginAnonymousError){ %>
+                <p>
+                    <%= locals.loginAnonymousError %>
+                </p>
+                <% } %>
+        </div>
+        <div class="standartContainer">
+            <h3>Logowanie</h3>
+            <form method="POST" action="/login">
+                <label>
+                    Nick:
+                </label>
+                <br>
+                <input type="text" name="nick">
+                <br>
+                <input type="password" name="password">
+                <br>
+                <input type="submit" value="Zaloguj się">
+            </form>
+            <a href="/register">Zarejestruj się</a>
+            <% if (locals.loginError){ %>
+                <p>
+                    <%= locals.loginError %>
+                </p>
+                <% } %>
+        </div>
+    </div>
+</body>
+
+</html>

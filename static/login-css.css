@@ -1,0 +1,26 @@
+body {
+  background-color: #63b8ff;
+}
+
+.mainContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.centerContainer {
+  display: flex;
+  justify-content: center;
+}
+
+label {
+  color: #104e8b;
+}
+h3 {
+  color: #104e8b;
+}
+p {
+  color: red;
+}
+a {
+  color: #104e8b;
+}

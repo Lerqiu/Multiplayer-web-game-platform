@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>Pokoje</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="enter.css"> 
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="topContainer">
+            <div>
+                <%= locals.nick %>
+            </div>
+
+            <% if ( locals.registered ){ %>
+                <div>
+                    <form method="POST" action="/logout">
+                        <input type="submit" value="Wyloguj">
+                    </form>
+                </div>
+                <% } %>
+
+        </div>
+        <div>
+            <form>
+                <label>Nazwa pokoju:</label>
+                <input type="text" name="name">
+
+                <label>Rodzaj gry:</label>
+                <input type="text" name="type">
+
+                <label>Hasło (puste oznacza brak):</label>
+                <input type="text" name="password">
+
+                <input type="submit" value="Stwórz pokój">
+            </form>
+        </div>
+        <div class="roomsContainer">
+            <% for ( room in locals.rooms ){ %>
+                <a href="<%= room.link %>">
+                    <div>
+                        <span>
+                            <%= room.name %>
+                        </span>
+                        <span>
+                            <%= room.type %>
+                        </span>
+                        <span>
+                            <%= room.presentUsers %> / <%= room.maxUsers %>
+                        </span>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+    </div>
+</body>
+
+</html>
