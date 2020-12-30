@@ -20,9 +20,12 @@ console.log(`Server listens: ${process.env.PORT || 3000}`);
 
 // var io = socket(server);
 
-let login = require("./js/login");
-login.addLogin(app);
 
+let users = require('./js/users');
+
+let login = require("./js/login")(app,users);
+
+let rooms = require('./js/rooms')(app,login.authorize,login.registered);
 
 // io.on('connection', function (socket) {
 //     console.log('client connected:' + socket.id);

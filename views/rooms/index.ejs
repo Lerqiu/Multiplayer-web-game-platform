@@ -3,14 +3,14 @@
 <head>
     <title>Pokoje</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="enter.css"> 
+    <link rel="stylesheet" href="rooms-css.css"> 
 </head>
 
 <body>
     <div class="mainContainer">
         <div class="topContainer">
             <div>
-                <%= locals.nick %>
+                <button id="nickButton"><%= locals.nick %> </button>
             </div>
 
             <% if ( locals.registered ){ %>
@@ -22,33 +22,44 @@
                 <% } %>
 
         </div>
-        <div>
-            <form>
+        <div class="addRoomContainer">
+            <% if ( locals.newRoomError ){ %>
+                <div>
+                    <span class="error">
+                        <%= locals.newRoomError %>
+                    </span>
+                </div>
+            <% } %>
+            <form method="POST">
                 <label>Nazwa pokoju:</label>
                 <input type="text" name="name">
-
+                <br>
                 <label>Rodzaj gry:</label>
-                <input type="text" name="type">
-
+                <!-- <input type="text" name="type"> -->
+                <%- include('./../templates/drop-down_list', {name:"type",options: locals.gamesType})  %> 
+                <br>
                 <label>Hasło (puste oznacza brak):</label>
                 <input type="text" name="password">
-
+                <br>
                 <input type="submit" value="Stwórz pokój">
             </form>
         </div>
         <div class="roomsContainer">
-            <% for ( room in locals.rooms ){ %>
+            <% for (let room of locals.rooms ){ %>
                 <a href="<%= room.link %>">
-                    <div>
-                        <span>
+                    <div class="roomContainer">
+                        <div>
                             <%= room.name %>
-                        </span>
-                        <span>
+                        </div>
+                        <div>
                             <%= room.type %>
-                        </span>
-                        <span>
+                        </div>
+                        <div>
                             <%= room.presentUsers %> / <%= room.maxUsers %>
-                        </span>
+                        </div>
+                        <div>
+                            Hasło: <%= room.passwordRequired ? "Wymagane" : "Brak" %>  %>
+                        </div>
                     </div>
                 </a>
                 <% } %>

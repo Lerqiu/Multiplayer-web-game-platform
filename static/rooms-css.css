@@ -1,5 +1,6 @@
 body {
   background-color: #63b8ff;
+  margin: 0;
 }
 
 .mainContainer {
@@ -9,5 +10,53 @@ body {
 
 .topContainer {
   display: flex;
+  padding: 2mm;
+  justify-content: space-between;
+  background-color: #57a7f8;
+  border-radius: 15px;
+}
+
+.topContainer > div {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.topContainer > div > form {
+  margin: auto;
+}
+
+.addRoomContainer {
+  background-color: #57a7f8;
+  margin-top: 2mm;
+  margin-bottom: 2mm;
+  border-radius: 25px;
+}
+
+#nickButton {
+  pointer-events: none;
+}
+
+a {
+  color: #104e8b;
+  text-decoration: none;
+}
+
+.roomsContainer > a > * {
+  margin-bottom: 1%;
+}
+
+.roomContainer {
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.roomContainer > div {
+  display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.error {
+  color: red;
 }

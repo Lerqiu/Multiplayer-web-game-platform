@@ -1,0 +1,9 @@
+<select name="<%= name %>">
+    <% options.forEach( option=> { %>
+        <option value="<%= option %>">
+            <%= option %>
+        </option>
+        <% }) %>
+</select>
+
+<!-- Użycie tego szablonu wymaga zewnętrzne opakowanie w formularz-->
