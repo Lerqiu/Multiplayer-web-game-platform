@@ -27,6 +27,7 @@ let login = require("./js/login")(app,users);
 
 let rooms = require('./js/rooms')(app,login.authorize,login.registered);
 
+
 // io.on('connection', function (socket) {
 //     console.log('client connected:' + socket.id);
 //     socket.on('chat message', function (data) {

@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <title>Granko</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/login-css.css">
+</head>
+
+<body>
+    <div class="mainContainer">
+        <div class="standartContainer">
+            <h3>Logowanie</h3>
+            <form method="POST">
+                <label>
+                    Hasło do pokoju:
+                </label>
+                <input type="password" name="password">
+                <br>
+                <input type="submit" value="Przejdź dalej">
+            </form>
+            <% if (locals.error){ %>
+                <p>
+                    <%= locals.error %>
+                </p>
+                <% } %>
+        </div>
+    </div>
+</body>
+
+</html>

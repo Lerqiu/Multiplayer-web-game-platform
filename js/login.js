@@ -32,15 +32,15 @@ module.exports = function (app, users) {
         var password = req.body.password;
         var nick = req.body.nick;
         //if (users.exist(nick))
-            users.isLoginCorrect(nick, password).then(result => {
-                if (result) {
-                    res.cookie('user', JSON.stringify({ nick: req.body.nick, mode: "registered" }), { signed: true });
-                    next();
-                }
-                else {
-                    res.render("login/index.ejs", { loginError: "Niepoprawne login lub hasło.", loginAnonymousError: "" });
-                }
-            })
+        users.isLoginCorrect(nick, password).then(result => {
+            if (result) {
+                res.cookie('user', JSON.stringify({ nick: req.body.nick, mode: "registered" }), { signed: true });
+                next();
+            }
+            else {
+                res.render("login/index.ejs", { loginError: "Niepoprawne login lub hasło.", loginAnonymousError: "" });
+            }
+        })
         // else {
         //     console.log(JSON.stringify(users.getAll()))
         //     res.render("login/index.ejs", { loginError: `Brak użytkownika o podanej nazwie.`, loginAnonymousError: "" });

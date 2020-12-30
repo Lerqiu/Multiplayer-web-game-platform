@@ -1,66 +1,96 @@
 const { Guid } = require('js-guid');
-
+var bcrypt = require('bcrypt');
 
 let rooms = new Map();
-rooms.set("Aloha1",
-    {
-        name: "Aloha1", //Room name
-        type: "Kółko i krzyżyk",//Game name
-        presentUsers: 0,
-        maxUsers: 4,
-        link: "#",
-        passwordRequired: true,
-        password: "asd",
-        canJoin: true,
-        gameData: undefined,
+// rooms.set(guid,
+//     {
+//         roomData: {
+//             name: "Nazwa pokoju",
+//             gameName: "Nazwa gry",
+//             presentPlayers: "Obecni użytkownicy",
+//             maxPlayers: "Pojemność pokoju",
+//             link: "Link do pokoju", // /room/<guid>
+//             passwordRequired: true, // or false
+//             password: "zaszyfrowane hasło",
+//             connectedPlayers : []
+//             get canJoin() { return this.presentPlayers < this.maxPlayers },
+//         },
+//         guid: "wygenerowany guid",
+//         gameData: undefined // W budowie
+//     });
+
+
+//Otrzymujemy tablicę pokoi do których można dołączyć
+function getAvailableRoomsData() {
+    return Array.from(rooms.values()).filter(room => {
+        return room.roomData.canJoin;
+    }).map(obj => {
+        return obj.roomData;
     })
-
-function getFreeGuid(){
-    return Guid.newGuid().toString();
 }
 
 
-//Otrzymujemy tablicę w formie możliwej to przekazania widokowi
-function getAvailableRooms_printVersion() {
-    return Array.from(rooms.values()).map(obj => {
-        return {
-            name: obj.name,
-            type: obj.type,
-            presentUsers: obj.presentUsers,
-            maxUsers: obj.maxUsers,
-            link: obj.link,
-            passwordRequired: obj.passwordRequired,
-            canJoin: obj.canJoin
-        }
-    });
+//Gettery i settery dla pokoi
+function getRoomGuid_FromRoomName(roomName) {
+    for (let room of rooms.values()) {
+        if (room.roomData.name == roomName)
+            return room.guid;
+    }
+    return undefined;
 }
 
-function doesRoomExist(name) {
-    rooms.has(name);
+function doesRoomWithNameExist(roomName) {
+    return getRoomGuid_FromRoomName(roomName) !== undefined;
 }
 
-function getRoomsNames() {
-    return Array.from(rooms.keys());
+function doesRoomExist(guid) {
+    return rooms.has(guid);
 }
 
+function removeRoom(guid) {
+    rooms.delete(guid);
+}
+
+function getRoom(guid) {
+    return rooms.get(guid)
+}
+
+
+function getFreeGuid() {
+    let guid;
+    do {
+        guid = Guid.newGuid().toString();
+    } while (doesRoomExist(guid));
+    return guid;
+}
 
 module.exports = function (app, authorize, registered) {
 
     let games = require('./games');
+    games.init(app, authorize, doesRoomExist, getRoom, removeRoom)
 
-    function createNewRoom(roomName, gameName, roomPassword) {
+    async function createNewRoom(roomName, gameName, roomPassword) {
+        let guid = getFreeGuid();
+        var rounds = 12;
+        var encryptedPassword = await bcrypt.hash(roomPassword, rounds);
 
-        rooms.set(roomName, {
-            name: roomName,
-            type: gameName,
-            presentUsers: 0,
-            maxUsers: games.basicGameData(gameName).maxPlayers,
-            link: "/rooms/"+getFreeGuid(),
-            passwordRequired: roomPassword != "",
-            password: roomPassword,
-            canJoin: true,
-            gameData: undefined,
-        })
+        let newRoom = {
+            roomData: {
+                name: roomName,
+                gameName: gameName,
+
+                maxPlayers: games.basicGameData(gameName).maxPlayers,
+                link: "/room/" + guid,
+                password: encryptedPassword,
+                passwordRequired: roomPassword != "", // or false
+                get canJoin() { return this.presentPlayers < this.maxPlayers },
+                connectedPlayers: [],
+                get presentPlayers() { return this.connectedPlayers.length },
+            },
+            guid: guid,
+        };
+        rooms.set(guid, newRoom);
+        return newRoom;
     }
 
     /**
@@ -70,7 +100,7 @@ module.exports = function (app, authorize, registered) {
         res.render('./rooms/index.ejs', {
             nick: req.user.nick,
             registered: registered(req.user),
-            rooms: getAvailableRooms_printVersion(),
+            rooms: getAvailableRoomsData(),
             gamesType: games.gamesName(),
             newRoomError: ""
         })
@@ -89,36 +119,30 @@ module.exports = function (app, authorize, registered) {
         let error = "";
         if (!gameName || !roomName) {
             error = "Tylko hasło może pozostać puste."
-        }
-        else if (doesRoomExist(roomName)) {
+        } else if (doesRoomWithNameExist(roomName)) {
             error = "Pokój o takiej nazwie już istnieje (możliwe że jest już w trakcie gry).";
-        }
-        else if (!games.gamesName().includes(gameName)) {
+        } else if (!games.gamesName().includes(gameName)) {
             error = "Niepoprawny wybór gry.";
-        }
-        else if (getRoomsNames().includes(roomName)) {
-            error = "Pokój o takiej nazwie już istnieje (może być niedostępny z powodu trwającej rozgrywki).";
         }
 
         if (error != "") {
             res.render('./rooms/index.ejs', {
                 nick: req.user.nick,
                 registered: registered(req.user),
-                rooms: getAvailableRooms_printVersion(),
+                rooms: getAvailableRoomsData(),
                 gamesType: games.gamesName(),
                 newRoomError: error
             })
         } else {
             //Stworzenie pokoju
-            createNewRoom(roomName, gameName, roomPassword);
-
-            //res.end("Todo");//Przekierowanie do nowo utworzonego pokoju
-            res.redirect(req.url)
+            createNewRoom(roomName, gameName, roomPassword).then(result => {
+                //res.end("Todo");//Przekierowanie do nowo utworzonego pokoju
+                res.redirect(req.url)
+            })
         }
-
     }
 
-
+    //Inicjalizacja pokoi
     app.get('/rooms', authorize, rooms_get);
     app.post('/rooms', authorize, rooms_post);
 }
