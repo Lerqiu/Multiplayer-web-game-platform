@@ -64,10 +64,10 @@ function getFreeGuid() {
     return guid;
 }
 
-module.exports = function (app, authorize, registered) {
+module.exports = function (app, authorize, registered,ioSocket) {
 
     let games = require('./games');
-    games.init(app, authorize, doesRoomExist, getRoom, removeRoom)
+    games.init(app, authorize, doesRoomExist, getRoom, removeRoom,ioSocket)
 
     async function createNewRoom(roomName, gameName, roomPassword) {
         let guid = getFreeGuid();

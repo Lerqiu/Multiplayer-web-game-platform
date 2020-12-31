@@ -1,5 +1,5 @@
 var http = require('http');
-// var socket = require('socket.io');
+var socket = require('socket.io');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 
@@ -18,14 +18,14 @@ var server = http.createServer(app);
 server.listen(process.env.PORT || 3000);
 console.log(`Server listens: ${process.env.PORT || 3000}`);
 
-// var io = socket(server);
+var io = socket(server);
 
 
 let users = require('./js/users');
 
-let login = require("./js/login")(app,users);
+let login = require("./js/login")(app, users);
 
-let rooms = require('./js/rooms')(app,login.authorize,login.registered);
+let rooms = require('./js/rooms')(app, login.authorize, login.registered,io);
 
 
 // io.on('connection', function (socket) {

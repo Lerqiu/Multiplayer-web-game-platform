@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        window.onload = () => {
+            console.log("Skrypt działa")
+            var socket = io();
+            var guid = "<%- locals.guid %>";
+            var user = '<%- locals.user %>';
+
+            var identifierRaw = '<%- locals.identifierRaw %>';
+            var identifierEncrypted = '<%- locals.identifierEncrypted %>';
+
+            socket.emit('init', {
+                identifierRaw,
+                identifierEncrypted
+            });
+            
+            console.log("Czas na wiadomość")
+
+            var msg = document.getElementById('messages');
+
+            var btsend = document.getElementById('btsend');
+            btsend.addEventListener('click', function () {
+                msg.innerHTML += data + "<br/>";
+            });
+        };
+    </script>
+    <style>
+        h2 {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>
+        Zaczynamy grę
+    </h2>
+    <button id='btsend'>Wyślij</button>
+    <div id='messages'></div>
+</body>
+
+</html>
