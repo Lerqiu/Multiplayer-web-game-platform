@@ -2,7 +2,10 @@ let TicTacToe = require('./games/Tic_Tac_Toe');
 var bcrypt = require('bcrypt');
 
 let games = new Map();
-games.set("Tic Tac Toe", { maxPlayers: 2, runGame: TicTacToe.run });
+games.set("Tic Tac Toe", { maxPlayers: 2, runGame: TicTacToe.run, 
+    socketDo: TicTacToe.socketDo ,
+    socketOnConnect:TicTacToe.socketOnConnect,
+    socketOnDisconnect:TicTacToe.socketOnDisconnect});
 
 
 module.exports.gamesName = function () {
@@ -29,7 +32,7 @@ module.exports.init = function (app, authorize, doesRoomExist, getRoom, removeRo
                 if (doesRoomExist(message.guid)) {
                     room = getRoom(message.guid);
                     if (isUserConnected(message.user, room.roomData.connectedPlayers)) {
-                        let connectedList = getUserConnected();
+                        let connectedList = getUserConnected(message.user,room.roomData.connectedPlayers);
                         connectedList.socketIDs.push(socket.id);
                     } else {
                         let record = {
@@ -39,7 +42,10 @@ module.exports.init = function (app, authorize, doesRoomExist, getRoom, removeRo
                         }
                         room.roomData.connectedPlayers.push(record)
                     }
-                }else{
+                    socket.join(room.guid);//Dołączenie socketu do pokoju 
+                    games.get(room.roomData.gameName).socketOnConnect(socket, io, room,message.user);//Wydarzenia po połączeniu
+                    games.get(room.roomData.gameName).socketDo(socket, io, room,message.user);//Obsługa eventów z socketu wybranej gry 
+                } else {
                     console.log("Pokój nie istnieje")
                 }
             })
@@ -47,27 +53,24 @@ module.exports.init = function (app, authorize, doesRoomExist, getRoom, removeRo
         })
 
         socket.on('disconnecting', () => {
-            console.log("Czas to wszystko zakończyć ");
-            if (room !== undefined && doesRoomExist(room.guid))
-                {
-                    console.log(room !== undefined);
-                    console.log("ENd")
-                }
-            console.log("EE1")
+            console.log(`Czas to wszystko zakończyć ${typeof room !== 'undefined'} ${typeof room}`);
+            if (typeof room === 'undefined' || !doesRoomExist(room.guid)) {
+                return;
+            }
             let connected = room.roomData.connectedPlayers;
             connected = connected.map(player => {
                 return {
                     nick: player.nick,
                     mode: player.mode,
                     socketIDs: player.socketIDs.filter(id => {
-                        id != socket.id;
+                        return id != socket.id;
                     })
                 };
             });
             connected = connected.filter(player => {
                 return player.socketIDs.length > 0;
             })
-
+            games.get(room.roomData.gameName).socketOnDisconnect(socket, io, room);
             if (connected.length == 0) {
                 console.log("Pokój jest pusty " + JSON.stringify(room))
                 removeRoom(room.guid);

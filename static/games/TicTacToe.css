@@ -1,0 +1,40 @@
+body {
+  background-color: #63b8ff;
+}
+
+
+table {
+  border: 1px solid ;
+}
+
+#main_div {
+  display: inline-block;
+  background-color: #57a7f8;
+}
+#div_box {
+  text-align: center;
+}
+
+.square {
+  font-weight: bold;
+  background-color: white;
+  background-size: contain;
+  width: 128px;
+  height: 128px;
+}
+
+#playersContainer {
+  display: flex;
+  padding: 2mm;
+  justify-content: space-between;
+  background-color: #57a7f8;
+  border-radius: 15px;
+}
+
+.playerName {
+margin: 3mm;;
+}
+
+#status{
+  text-align: center;
+}

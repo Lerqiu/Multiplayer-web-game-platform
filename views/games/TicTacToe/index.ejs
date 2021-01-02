@@ -8,7 +8,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         window.onload = () => {
-            console.log("Skrypt działa")
             var socket = io();
             var guid = "<%- locals.guid %>";
             var user = '<%- locals.user %>';
@@ -20,30 +19,44 @@
                 identifierRaw,
                 identifierEncrypted
             });
-            
-            console.log("Czas na wiadomość")
-
-            var msg = document.getElementById('messages');
-
-            var btsend = document.getElementById('btsend');
-            btsend.addEventListener('click', function () {
-                msg.innerHTML += data + "<br/>";
-            });
+            startGame(socket);
         };
     </script>
-    <style>
-        h2 {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="/games/TicTacToe.css">
 </head>
 
 <body>
-    <h2>
-        Zaczynamy grę
-    </h2>
-    <button id='btsend'>Wyślij</button>
-    <div id='messages'></div>
+    <div id="playersContainer">
+        <h2 id="playerOne" class="playerName"></h2>
+        <h2 id="playerTwo" class="playerName"></h2>
+    </div>
+    <div>
+        <h2 id="status">
+            Waiting for players....
+        </h2>
+    </div>
+    <div id="div_box">
+        <div id="main_div">
+            <table>
+                <tr>
+                    <th id="square_1" class="square">1</th>
+                    <th id="square_2" class="square">2</th>
+                    <th id="square_3" class="square">3</th>
+                </tr>
+                <tr>
+                    <td id="square_4" class="square">4</td>
+                    <td id="square_5" class="square">5</td>
+                    <td id="square_6" class="square">6</td>
+                </tr>
+                <tr>
+                    <td id="square_7" class="square">7</td>
+                    <td id="square_8" class="square">8</td>
+                    <td id="square_9" class="square">9</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="/games/TicTacToe.js"></script>
 </body>
 
 </html>
