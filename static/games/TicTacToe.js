@@ -1,331 +1,4 @@
-// 'use strict';
-
-// let players = {
-//   now: "1",
-//   "0": "Anonymous",
-//   "1": "Anonymous",
-// }
-
-// const symbolForPlayers = {
-//   "0": "orange",
-//   "1": "blue",
-// }
-
-// const descriptionOfSymbol = {
-//   "0": "O",
-//   "1": "X",
-// }
-
-// let board = {};
-// const cellsAmount = 9;
-// let isEndOfGame = false;
-
-// function reloadTurnSpan() {
-//   document.getElementById("turnTag").innerHTML =
-//     ": " + players[players.now] +
-//     " | " + descriptionOfSymbol[players.now];
-// }
-
-// function getCellId(cellNumber) {
-//   return "square_" + String(cellNumber);
-// }
-
-// function getPlayersNames() {
-//   for (let i = 0; i < 2; i++) {
-//     players[i] = prompt(
-//       `Name for player (starts with ${descriptionOfSymbol[i]}): `,
-//       "Anonymous"
-//     );
-//   }
-// }
-
-// function decideWhoShouldStart() {
-//   players.now = confirm(`Should start ${players[0]}?`) ?
-//     players.now = '0' : players.now = '1'
-// }
-
-// function clearBoard() {
-//   for (let i = 1; i <= cellsAmount; i++) {
-//     board[i] = null;
-//     document.getElementById(getCellId(i)).style.backgroundImage = null;
-//   }
-// }
-
-// function addEventListenersForBoard() {
-//   for (let i = 1; i <= cellsAmount; i++) {
-//     document.getElementById(getCellId(i)).addEventListener("click", function () {
-//       if (!isEndOfGame)
-//         onClickListener(i);
-//     });
-//   }
-// }
-
-// function prepareGame() {
-//   getPlayersNames();
-//   decideWhoShouldStart();
-//   reloadTurnSpan();
-//   clearBoard();
-// }
-
-
-// function changePlayerTurn() {
-//   if (players.now == "1") {
-//     players.now = "0";
-//   } else {
-//     players.now = "1";
-//   }
-// }
-
-// function addNewSymbolInBoard(cellNumber) {
-//   document.getElementById(getCellId(cellNumber)).style.backgroundColor =
-//    symbolForPlayers[players.now];
-//   board[cellNumber] = players.now;
-// }
-
-// function checkIfCanAddSymbolAtCell(cellNumber) {
-//   return board[cellNumber] == null;
-// }
-
-// function showEnd(player) {
-//   if (player == null || undefined) {
-//     alert("Is a draw!!!");
-//   } else {
-//     alert(`This time won: ${players[player]} | ${descriptionOfSymbol[player]}`);
-//   }
-// }
-
-// function isThereAWinnerInRow(numerOfRow) {
-//   return (board[(numerOfRow - 1) * 3 + 1] != null &&
-//     board[(numerOfRow - 1) * 3 + 1] ===
-//     board[(numerOfRow - 1) * 3 + 2] &&
-//     board[(numerOfRow - 1) * 3 + 2] ===
-//     board[(numerOfRow - 1) * 3 + 3]);
-// }
-
-// function isThereAWinnerInColumn(numerOfColumn) {
-//   return (
-//     board[numerOfColumn] != null &&
-//     board[numerOfColumn] ===
-//     board[numerOfColumn + 3] &&
-//     board[numerOfColumn + 3] ===
-//     board[numerOfColumn + 6]
-//   );
-// }
-
-// function isThereAWinnerAcross() {
-//   return (
-//     board[5] != null &&
-//     (
-//       (board[1] === board[5] && board[5] === board[9]) ||
-//       (board[3] === board[5] && board[5] === board[7])
-//     )
-//   )
-// }
-
-// function didSomeoneWon() {
-//   if (isThereAWinnerAcross())
-//     return board[5];
-
-//   for (let i = 1; i <= 3; i++)
-//     if (isThereAWinnerInColumn(i))
-//       return board[i];
-
-//   for (let i = 1; i <= 3; i++)
-//     if (isThereAWinnerInRow(i))
-//       return board[i + (i - 1) * 3];
-
-//   return null;
-// }
-
-// function canNextMoveBeMade() {
-//   for (let i = 1; i <= cellsAmount; i++)
-//     if (board[i] == null)
-//       return true;
-//   return false;
-// }
-
-// function onClickListener(cellNumber) {
-//   if (checkIfCanAddSymbolAtCell(cellNumber)) {
-//     addNewSymbolInBoard(cellNumber);
-
-//     let isThereAWinner = didSomeoneWon()
-//     if (isThereAWinner != null) {
-//       showEnd(isThereAWinner);
-//       prepareGame();
-//     } else if (canNextMoveBeMade()) {
-//       changePlayerTurn()
-//       reloadTurnSpan()
-//     } else {
-//       showEnd(null)
-//     }
-//   }
-// }
-
-// addEventListenersForBoard()
-// prepareGame();
-
-
-// 'use strict';
-
-// let players = {
-//     now: "1",
-//     "0": "Anonymous",
-//     "1": "Anonymous",
-// }
-
-// const symbolForPlayers = {
-//     "0": "orange",
-//     "1": "blue",
-// }
-
-// const descriptionOfSymbol = {
-//     "0": "O",
-//     "1": "X",
-// }
-
-// let board = {};
-// const cellsAmount = 9;
-// let isEndOfGame = false;
-
-// function reloadTurnSpan() {
-//     document.getElementById("playerOne").innerHTML =
-//         ": " + players[players.now] +
-//         " | " + descriptionOfSymbol[players.now];
-// }
-
-// function getCellId(cellNumber) {
-//     return "square_" + String(cellNumber);
-// }
-
-// function getPlayersNames() {
-//     for (let i = 0; i < 2; i++) {
-//         players[i] ="Anonymous"
-//     }
-// }
-
-// function decideWhoShouldStart() {
-//     players.now = "0";
-// }
-
-// function clearBoard() {
-//     for (let i = 1; i <= cellsAmount; i++) {
-//         board[i] = null;
-//         document.getElementById(getCellId(i)).style.backgroundImage = null;
-//     }
-// }
-
-// function addEventListenersForBoard(socket) {
-//     for (let i = 1; i <= cellsAmount; i++) {
-//         document.getElementById(getCellId(i)).addEventListener("click", function () {
-//             if (!isEndOfGame)
-//                 onClickListener(i, socket);
-//         });
-//     }
-// }
-
-// function prepareGame() {
-//     getPlayersNames();
-//     decideWhoShouldStart();
-//     reloadTurnSpan();
-//     clearBoard();
-// }
-
-
-// function changePlayerTurn() {
-//     if (players.now == "1") {
-//         players.now = "0";
-//     } else {
-//         players.now = "1";
-//     }
-// }
-
-// function addNewSymbolInBoard(cellNumber) {
-//     document.getElementById(getCellId(cellNumber)).style.backgroundColor =
-//         symbolForPlayers[players.now];
-//     board[cellNumber] = players.now;
-// }
-
-// function checkIfCanAddSymbolAtCell(cellNumber) {
-//     return board[cellNumber] == null;
-// }
-
-// function showEnd(player) {
-//     if (player == null || undefined) {
-//         alert("Is a draw!!!");
-//     } else {
-//         alert(`This time won: ${players[player]} | ${descriptionOfSymbol[player]}`);
-//     }
-// }
-
-// function isThereAWinnerInRow(numerOfRow) {
-//     return (board[(numerOfRow - 1) * 3 + 1] != null &&
-//         board[(numerOfRow - 1) * 3 + 1] ===
-//         board[(numerOfRow - 1) * 3 + 2] &&
-//         board[(numerOfRow - 1) * 3 + 2] ===
-//         board[(numerOfRow - 1) * 3 + 3]);
-// }
-
-// function isThereAWinnerInColumn(numerOfColumn) {
-//     return (
-//         board[numerOfColumn] != null &&
-//         board[numerOfColumn] ===
-//         board[numerOfColumn + 3] &&
-//         board[numerOfColumn + 3] ===
-//         board[numerOfColumn + 6]
-//     );
-// }
-
-// function isThereAWinnerAcross() {
-//     return (
-//         board[5] != null &&
-//         (
-//             (board[1] === board[5] && board[5] === board[9]) ||
-//             (board[3] === board[5] && board[5] === board[7])
-//         )
-//     )
-// }
-
-// function didSomeoneWon() {
-//     if (isThereAWinnerAcross())
-//         return board[5];
-
-//     for (let i = 1; i <= 3; i++)
-//         if (isThereAWinnerInColumn(i))
-//             return board[i];
-
-//     for (let i = 1; i <= 3; i++)
-//         if (isThereAWinnerInRow(i))
-//             return board[i + (i - 1) * 3];
-
-//     return null;
-// }
-
-// function canNextMoveBeMade() {
-//     for (let i = 1; i <= cellsAmount; i++)
-//         if (board[i] == null)
-//             return true;
-//     return false;
-// }
-
-
-// //Należy wykorzystać socket.io do wysłania informacji do serwera o potencjalnym ruchu
-// function onClickListener(cellNumber, socket) {
-//     socket.emit('klocek', cellNumber);
-//     // if (checkIfCanAddSymbolAtCell(cellNumber)) {
-//     //     addNewSymbolInBoard(cellNumber);
-
-//     //     let isThereAWinner = didSomeoneWon()
-//     //     if (isThereAWinner != null) {
-//     //         showEnd(isThereAWinner);
-//     //         prepareGame();
-//     //     } else if (canNextMoveBeMade()) {
-//     //         changePlayerTurn()
-//     //         reloadTurnSpan()
-//     //     } else {
-//     //         showEnd(null)
-//     //     }
-//     // }
-// }
+'use strict'
 
 function getCellId(cellNumber) {
     return "square_" + String(cellNumber);
@@ -358,9 +31,16 @@ function turnOf(symbol) {
     }
 }
 
+function setUsersName(users) {
+    if (users.x)
+        document.getElementById('playerOne').innerHTML = `X: ${users.x.nick}`;
+    if (users.o)
+        document.getElementById('playerTwo').innerHTML = `O: ${users.o.nick}`;
+}
+
+
 function onStart(gameData) {
-    document.getElementById('playerOne').innerHTML = `X: ${gameData.users.x.nick}`;
-    document.getElementById('playerTwo').innerHTML = `O: ${gameData.users.o.nick}`;
+    setUsersName(gameData.users)
     turnOf(gameData.turnNowBy);
     document.getElementById('status').remove();
 }
@@ -392,6 +72,7 @@ function synchronizeBoard(gameData) {
 }
 
 function startGame(socket) {
+    console.log("dopaliło się")
     socket.on('start', arg => {
         onStart(arg);
         console.log(`Otrzymano sygnał startu: ${JSON.stringify(arg)}`)
@@ -407,6 +88,9 @@ function startGame(socket) {
     })
     socket.on('won', arg => {
         alert(`Grę wygrał: ${arg} `)
+    })
+    socket.on('userUpdate', arg => {
+        setUsersName(arg)
     })
     addEventListenersForBoard(socket);
 }

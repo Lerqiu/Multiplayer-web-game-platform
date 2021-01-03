@@ -46,19 +46,19 @@
         </div>
         <div class="roomsContainer">
             <% for (let room of locals.rooms ){ %>
-                <a href="<%= room.link %>">
+                <a href="<%= room.getLink() %>">
                     <div class="roomContainer">
                         <div>
-                            <%= room.name %>
+                            <%= room.getName() %>
                         </div>
                         <div>
-                            <%= room.gameName %>
+                            <%= room.getGameName() %>
                         </div>
                         <div>
-                            <%= room.presentPlayers %> / <%= room.maxPlayers %>
+                            <%= room.presentPlayers() %> / <%= room.maxPlayers() %>
                         </div>
                         <div>
-                            Hasło: <%= room.passwordRequired ? "Wymagane" : "Brak" %>  %>
+                            Hasło: <%= room.isPasswordRequired() ? "Wymagane" : "Brak" %>  %>
                         </div>
                     </div>
                 </a>

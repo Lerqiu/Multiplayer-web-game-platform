@@ -1,0 +1,14 @@
+<script>
+    window.onload = () => {
+        var socket = io();
+
+        var identifierRaw = '<%- raw %>';
+        var identifierEncrypted = '<%- encrypted %>';
+
+        socket.emit('init', {
+            identifierRaw,
+            identifierEncrypted
+        });
+        startGame(socket);
+    };
+</script>

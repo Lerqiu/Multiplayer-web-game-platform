@@ -10,7 +10,8 @@
     <div class="mainContainer">
         <div class="standartContainer">
             <h3>Bez logowania</h3>
-            <form method="POST" action="/login_anonymous">
+            <form method="POST">
+                <input type="hidden" value="anonymous" name="mode">
                 <label>
                     Nick:
                 </label>
@@ -27,7 +28,8 @@
         </div>
         <div class="standartContainer">
             <h3>Logowanie</h3>
-            <form method="POST" action="/login">
+            <form method="POST">
+                <input type="hidden" value="registering" name="mode">
                 <label>
                     Nick:
                 </label>

@@ -20,23 +20,23 @@ console.log(`Server listens: ${process.env.PORT || 3000}`);
 
 var io = socket(server);
 
+let Users = require('./js/Users');
 
-let users = require('./js/users');
+let users = new Users();
 
-let login = require("./js/login")(app, users);
+let loginController = require("./js/loginController");
+let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
 
-let rooms = require('./js/rooms')(app, login.authorize, login.registered,io);
+let Rooms = require('./js/Rooms');
+let rooms = new Rooms();
+
+let roomsController = require('./js/roomsControllers');
+const roomsControllers = require('./js/roomsControllers');
+roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
 
 
-// io.on('connection', function (socket) {
-//     console.log('client connected:' + socket.id);
-//     socket.on('chat message', function (data) {
-//         io.emit('chat message', data); // do wszystkich
-//         //socket.emit('chat message', data); tylko do połączonego
-//     })
-// });
+let gameController = require('./js/gamesController');
+gameController.init(app, authorize, rooms, users);
 
-// setInterval(function () {
-//     var date = new Date().toString();
-//     io.emit('message', date.toString());
-// }, 1000);
+let basicSocket = require('./js/gameSocketBasic');
+basicSocket.init(rooms, users, io);

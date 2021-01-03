@@ -6,22 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        window.onload = () => {
-            var socket = io();
-            var guid = "<%- locals.guid %>";
-            var user = '<%- locals.user %>';
-
-            var identifierRaw = '<%- locals.identifierRaw %>';
-            var identifierEncrypted = '<%- locals.identifierEncrypted %>';
-
-            socket.emit('init', {
-                identifierRaw,
-                identifierEncrypted
-            });
-            startGame(socket);
-        };
-    </script>
+    <%- include('./../../templates/identity',  locals.identifier)  %> 
     <link rel="stylesheet" href="/games/TicTacToe.css">
 </head>
 
