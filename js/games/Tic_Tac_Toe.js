@@ -48,7 +48,6 @@ module.exports.socketDo = function (socket, io, room, user, rooms) {
                     if (didSomeoneWon(room.gameData.history[0])) {
                         io.to(room.id).emit('won', user.getNick());
                         rooms.removeRoom(room.id);
-if(user.isRegistered()){User.data.get(nick).gamesStats.push("wygrana z");}
                     } else if (isEndOfGame(room.gameData.history[0])) {
                         io.to(room.id).emit('end', '');
                         rooms.removeRoom(room.id);
