@@ -64,9 +64,10 @@
                 </a>
                 <% } %>
         </div>
+	<% if ( locals.registered ){ %>
 	<div class="statsContainer">
             statystki sprawdzenie
-		<%= locals.gameStats %>
+		<%= locals.nick %>
         </div>
     </div>
 </body>
