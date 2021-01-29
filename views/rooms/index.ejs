@@ -10,7 +10,7 @@
     <div class="mainContainer">
         <div class="topContainer">
             <div>
-                <button id="nickButton"><%= locals.nick %> </button>
+                <button id="nickButton"  style="margin: 15px"><%= locals.nick %> </button>
             </div>
 
             <% if ( locals.registered ){ %>
@@ -25,12 +25,12 @@
         <div class="addRoomContainer">
             <% if ( locals.newRoomError ){ %>
                 <div>
-                    <span class="error">
+                    <span class="error"  style="margin: 15px">
                         <%= locals.newRoomError %>
                     </span>
                 </div>
             <% } %>
-            <form method="POST"  style="margin: 10px">
+            <form method="POST"  style="margin: 15px">
                 <label>Nazwa pokoju:</label>
                 <input type="text" name="name">
                 <br>
