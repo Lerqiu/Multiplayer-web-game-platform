@@ -22,7 +22,7 @@ body {
 }
 
 .topContainer > div > form {
-  margin: auto;
+  margin: 10px;
 }
 
 .addRoomContainer {
