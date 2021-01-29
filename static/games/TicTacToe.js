@@ -88,7 +88,7 @@ function startGame(socket) {
     })
     socket.on('won', arg => {
         alert(`Grę wygrał: ${arg} `);
-	window.history.go(-1);
+	window.history.back();
     })
     socket.on('userUpdate', arg => {
         setUsersName(arg)
