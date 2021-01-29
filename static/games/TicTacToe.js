@@ -87,8 +87,8 @@ function startGame(socket) {
         alert('Gra zostałą zakończona remisem.')
     })
     socket.on('won', arg => {
-        var r=alert(`Grę wygrał: ${arg} `);
-	if(r==true){window.history.go(-1);}
+        alert(`Grę wygrał: ${arg} `);
+	window.history.go(-1);
     })
     socket.on('userUpdate', arg => {
         setUsersName(arg)
