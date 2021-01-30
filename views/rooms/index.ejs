@@ -64,6 +64,14 @@
                 </a>
                 <% } %>
         </div>
+	<% if ( locals.registered ){ %>
+        <div class="roomsContainer">
+        	Statystyki: <br>
+		wygrane: <%= locals.won %>
+		przegrane: <%= locals.lost %>
+		remisy: <%= locals.remis %>
+        </div>
+        <% } %>
     </div>
 </body>
 
