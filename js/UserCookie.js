@@ -38,12 +38,12 @@ module.exports = class UserCookie {
     }
 
     static FromObject(obj) {
-        return new UserCookie(obj.nick, obj.mode);
+        return new UserCookie(obj.nick, obj.mode, obj.won);
     }
 
     static Parse(cookie) {
         let parsedCookie = JSON.parse(cookie);
-        return new UserCookie(parsedCookie.nick, parsedCookie.mode);
+        return new UserCookie(parsedCookie.nick, parsedCookie.mode, parsedCookie.won);
     }
 
     /**
