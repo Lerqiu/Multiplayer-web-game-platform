@@ -4,9 +4,6 @@ module.exports = class UserCookie {
     constructor(nick, mode) {
         this.nick = nick;
         this.mode = mode;
-	this.won = 0;
-	this.lost = 0;
-	this.remis = 0;
     }
 
     stringify() {
@@ -38,12 +35,12 @@ module.exports = class UserCookie {
     }
 
     static FromObject(obj) {
-        return new UserCookie(obj.nick, obj.mode, obj.won);
+        return new UserCookie(obj.nick, obj.mode);
     }
 
     static Parse(cookie) {
         let parsedCookie = JSON.parse(cookie);
-        return new UserCookie(parsedCookie.nick, parsedCookie.mode, parsedCookie.won);
+        return new UserCookie(parsedCookie.nick, parsedCookie.mode);
     }
 
     /**
