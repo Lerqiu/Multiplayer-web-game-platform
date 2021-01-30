@@ -4,6 +4,9 @@ module.exports = class UserCookie {
     constructor(nick, mode) {
         this.nick = nick;
         this.mode = mode;
+	this.won = 0;
+	this.lost = 0;
+	this.remis = 0;
     }
 
     stringify() {
