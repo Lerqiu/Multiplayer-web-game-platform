@@ -38,7 +38,7 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 }
 
 
-module.exports.socketDo = function (socket, io, room, user, user2, rooms) {
+module.exports.socketDo = function (socket, io, room, user, rooms) {
     socket.on('userMove', arg => {
         if (typeof room.gameData !== 'undefined') {
             if (user.isIdentical(room.gameData.users[room.gameData.turnNowBy])) {
@@ -46,11 +46,11 @@ module.exports.socketDo = function (socket, io, room, user, user2, rooms) {
                     room.gameData.history.unshift(newStateOfBoard(room.gameData.history[0], arg.y, arg.x, room.gameData.turnNowBy));
 
                     if (didSomeoneWon(room.gameData.history[0])) {
-                        io.to(room.id).emit('won', user.getNick()); 			                      
+                        io.to(room.id).emit('won', user.getNick());                        
 			rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
                         io.to(room.id).emit('end', '');
-			rooms.removeRoom(room.id);
+                        rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);
                         io.to(room.id).emit('move', room.gameData);
