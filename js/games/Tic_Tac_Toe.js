@@ -38,7 +38,7 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 }
 
 
-module.exports.socketDo = function (socket, io, room, user, rooms) {
+module.exports.socketDo = function (socket, io, room, user, user2, rooms) {
     socket.on('userMove', arg => {
         if (typeof room.gameData !== 'undefined') {
             if (user.isIdentical(room.gameData.users[room.gameData.turnNowBy])) {
