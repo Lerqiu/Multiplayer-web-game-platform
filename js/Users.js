@@ -1,5 +1,9 @@
 var bcrypt = require('bcrypt');
+const postgres = require('postgres')
 
+const sql = postgres() 
+
+module.exports = sql
 
 module.exports = class Users {
     constructor() {
@@ -33,6 +37,12 @@ module.exports = class Users {
         var rounds = 12;
         var encryptedPassword = await bcrypt.hash(password, rounds);
         this.data.set(nick, { encryptedPassword, gameStats: [] })
+	const [new_user] = await sql`
+ 	 insert into users (
+    	nick, encryptedPassword
+  	) values (
+   	 nick, password
+ 	 )`
     }
 
     async areLoginDataCorrect(nick, password) {
