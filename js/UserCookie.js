@@ -4,15 +4,19 @@ module.exports = class UserCookie {
     constructor(nick, mode) {
         this.nick = nick;
         this.mode = mode;
+	this.won = 0;
+	this.lost = 0;
+	this.remis = 0;
     }
 
     stringify() {
-        return JSON.stringify({ nick: this.nick, mode: this.mode })
+        return JSON.stringify({ nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis})
     }
 
     toObject() {
-        return { nick: this.nick, mode: this.mode };
+        return { nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis};
     }
+
 
     isAnonymous() {
         return this.mode === "anonymous";
@@ -35,12 +39,12 @@ module.exports = class UserCookie {
     }
 
     static FromObject(obj) {
-        return new UserCookie(obj.nick, obj.mode);
+        return new UserCookie(obj.nick, obj.mode, obj.won, obj.lost, obj.remis);
     }
 
     static Parse(cookie) {
         let parsedCookie = JSON.parse(cookie);
-        return new UserCookie(parsedCookie.nick, parsedCookie.mode);
+        return new UserCookie(parsedCookie.nick, parsedCookie.mode, parsedCookie.won, parsedCookie.lost, parsedCookie.remis);
     }
 
     /**
