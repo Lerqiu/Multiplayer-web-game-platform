@@ -38,6 +38,15 @@ module.exports = class UserCookie {
 	getRemis() {
         return this.remis;
     }
+	addWon(){
+	this.won+=1;
+    }
+	addLost(){
+	this.lost+=1;
+    }
+	raddRemis(){
+	this.remis+=1;
+    }
 
     /**
      * Sprawdzenie czy obiekty przetrzymują identyczne wartości
