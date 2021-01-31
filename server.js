@@ -19,24 +19,42 @@ server.listen(process.env.PORT || 3000);
 console.log(`Server listens: ${process.env.PORT || 3000}`);
 
 var io = socket(server);
-
-let Users = require('./js/Users');
-
-let users = new Users();
-
-let loginController = require("./js/loginController");
-let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
-
-let Rooms = require('./js/Rooms');
-let rooms = new Rooms();
-
-let roomsController = require('./js/roomsControllers');
-const roomsControllers = require('./js/roomsControllers');
-roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
+var { Client } = require('pg');
 
 
-let gameController = require('./js/gamesController');
-gameController.init(app, authorize, rooms, users);
+(async function () {
+    
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
 
-let basicSocket = require('./js/gameSocketBasic');
-basicSocket.init(rooms, users, io);
+    client.connect();
+
+    process.on('SIGHUP', function() {
+        client.end();
+      });
+
+    let Users = require('./js/Users');
+
+    let users = new Users(client);
+
+    let loginController = require("./js/loginController");
+    let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
+
+    let Rooms = require('./js/Rooms');
+    let rooms = new Rooms();
+
+    let roomsControllers = require('./js/roomsControllers');
+    roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
+
+
+    let gameController = require('./js/gamesController');
+    gameController.init(app, authorize, rooms, users);
+
+    let basicSocket = require('./js/gameSocketBasic');
+    basicSocket.init(rooms, users, io);
+
+})()

@@ -2,8 +2,20 @@ var bcrypt = require('bcrypt');
 
 
 module.exports = class Users {
-    constructor() {
+    constructor(client) {
+        this.client = client;
         this.data = new Map();// nick : { encryptedPassword , gamesStats:[]}
+
+        (async function () {
+            try {
+                let result = await client.query('SELECT * FROM USERS;');
+                result.forEach(row => {
+                    this.data.set(row[0], { encryptedPassword: row[1], gamesStats: [] });
+                })
+            } catch (err) {
+                console.log(err);
+            }
+        })();
     }
 
     /**
@@ -32,7 +44,13 @@ module.exports = class Users {
     async addNew(nick, password) {
         var rounds = 12;
         var encryptedPassword = await bcrypt.hash(password, rounds);
-        this.data.set(nick, { encryptedPassword, gameStats: [] })
+
+        try {
+            await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
+            this.data.set(nick, { encryptedPassword, gameStats: [] })
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     async areLoginDataCorrect(nick, password) {
