@@ -29,6 +29,15 @@ module.exports = class UserCookie {
     getNick() {
         return this.nick;
     }
+	getWon() {
+        return this.won;
+    }
+	getLost() {
+        return this.lost;
+    }
+	getRemis() {
+        return this.remis;
+    }
 
     /**
      * Sprawdzenie czy obiekty przetrzymują identyczne wartości
