@@ -35,6 +35,15 @@ module.exports = class Users {
     getR(nick) {
         return this.data.get(nick).remis
     }
+    addW(nick){
+	this.data.get(nick).won+=1;
+    }
+    addL(nick){
+	this.data.get(nick).lost+=1;
+    }
+    addR(nick){
+	this.data.get(nick).remis+=1;
+    }
 
     /**
     * Sprawdza czy w bazie znajduje się użytkownik o takiej nazwie
