@@ -2,6 +2,7 @@ var http = require('http');
 var socket = require('socket.io');
 var express = require('express');
 var cookieParser = require('cookie-parser');
+var { Client } = require('pg');
 
 var app = express();
 
@@ -19,42 +20,41 @@ server.listen(process.env.PORT || 3000);
 console.log(`Server listens: ${process.env.PORT || 3000}`);
 
 var io = socket(server);
-var { Client } = require('pg');
 
 
-(async function () {
-    
-    const client = new Client({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    });
+//Ustawienie parametrów połączenia z bazą danych
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
-    client.connect();
+//Rozłączenie z bazą danych podczas zakończenia działania programu
+process.on('SIGHUP', function () {
+    client.end();
+});
 
-    process.on('SIGHUP', function() {
-        client.end();
-      });
+//Łączenie z bazą danych
+client.connect();
 
-    let Users = require('./js/Users');
+let Users = require('./js/Users');
 
-    let users = new Users(client);
+let users = new Users(client);
 
-    let loginController = require("./js/loginController");
-    let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
+let loginController = require("./js/loginController");
+let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
 
-    let Rooms = require('./js/Rooms');
-    let rooms = new Rooms();
+let Rooms = require('./js/Rooms');
+let rooms = new Rooms();
 
-    let roomsControllers = require('./js/roomsControllers');
-    roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
+let roomsControllers = require('./js/roomsControllers');
+roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
 
 
-    let gameController = require('./js/gamesController');
-    gameController.init(app, authorize, rooms, users);
+let gameController = require('./js/gamesController');
+gameController.init(app, authorize, rooms, users);
 
-    let basicSocket = require('./js/gameSocketBasic');
-    basicSocket.init(rooms, users, io);
+let basicSocket = require('./js/gameSocketBasic');
+basicSocket.init(rooms, users, io);
 
-})()
