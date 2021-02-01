@@ -47,12 +47,14 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
                     room.gameData.history.unshift(newStateOfBoard(room.gameData.history[0], arg.y, arg.x, room.gameData.turnNowBy));
 
                     if (didSomeoneWon(room.gameData.history[0])) {
+                        console.log(JSON.stringify(user))
                         io.to(room.id).emit('won', user.getNick());
-			users.addW(user.getNick());                       
-			rooms.removeRoom(room.id);
+                        users.addW(user.getNick());
+                        rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
+                        console.log(JSON.stringify(user))
                         io.to(room.id).emit('end', '');
-			users.addR(user.getNick());
+                        users.addR(user.getNick());
                         rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);
