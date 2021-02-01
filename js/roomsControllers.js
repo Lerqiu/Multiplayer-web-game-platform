@@ -13,7 +13,7 @@ let basicsGamesData = require('./basicsGamesData');
 * @param {socket.Socket} ioSocket
 * 
 */
-module.exports.init = function (app, authorize, rooms) {
+module.exports.init = function (app, authorize, rooms, users) {
     /**
      * Wyświetlenie pokoi (GET)
      * @param {http.IncomingMessage} req
@@ -27,7 +27,9 @@ module.exports.init = function (app, authorize, rooms) {
             rooms: rooms.getAvailableRooms(),
             gamesType: basicsGamesData.gamesName(),
             newRoomError: "",
-	    won: users.getW(req.user.getNick())
+	    won: users.getW(req.user.getNick()),
+	    lost: users.getL(req.user.getNick()),
+	    remis: users.getR(req.user.getNick())
         })
     }
 
@@ -56,7 +58,10 @@ module.exports.init = function (app, authorize, rooms) {
                 registered: req.user.isRegistered(),
                 rooms: rooms.getAvailableRooms(),
                 gamesType: basicsGamesData.gamesName(),
-                newRoomError: error
+                newRoomError: error,
+		won: users.getW(req.user.getNick()),
+		lost: users.getL(req.user.getNick()),
+		remis: users.getR(req.user.getNick())
             })
         } else {
             //Stworzenie pokoju
