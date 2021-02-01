@@ -20,7 +20,7 @@ module.exports.init = function (app, authorize, rooms, users) {
         (async function () {
             var identifier = await gameIdentifier.makeIdentifier(room.id, user);
 
-            basicsGamesData.getBasicData(room.getGameName()).runGame(identifier, room, user, req, res);
+            basicsGamesData.getBasicData(room.getGameName()).runGame(identifier, room, user, req, res, users);
         })()
     }
     /**
