@@ -2,7 +2,6 @@ var http = require('http');
 var socket = require('socket.io');
 var express = require('express');
 var cookieParser = require('cookie-parser');
-var { Client } = require('pg');
 
 var app = express();
 
@@ -21,39 +20,10 @@ console.log(`Server listens: ${process.env.PORT || 3000}`);
 
 var io = socket(server);
 
-
-//Ustawienie parametrów połączenia z bazą danych
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-
-//Rozłączenie z bazą danych podczas zakończenia działania programu
-process.on('SIGHUP', function () {
-    client.end();
-});
-
-//Łączenie z bazą danych
-client.connect();
-
 (async function () {
-    //Pobranie danych z bazy
-    let dataOfUsers = new Map();
-    try {
-        let result = await client.query('SELECT * FROM USERS;');
-        result.rows.forEach(row => {
-            dataOfUsers.set(row.nick, { encryptedPassword: row.userpassword, won :0, lost:0, remis:0, gamesStats: [] });
-        })
-    } catch (err) {
-        console.log(err);
-    }
-
 
     let Users = require('./js/Users');
-
-    let users = new Users(client,dataOfUsers);
+    let users = await Users.newAndConnect()
 
     let loginController = require("./js/loginController");
     let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
