@@ -31,7 +31,7 @@ module.exports.init = function (rooms, users, io) {
 
                     socket.join(room.id);//Dołączenie socketu do pokoju 
                     basicsGamesData.getBasicData(room.getGameName()).socketOnConnect(socket, io, room, message.user,rooms);//Wydarzenia po połączeniu
-                    basicsGamesData.getBasicData(room.getGameName()).socketDo(socket, io, room, message.user,rooms);//Obsługa eventów z socketu wybranej gry 
+                    basicsGamesData.getBasicData(room.getGameName()).socketDo(socket, io, room, message.user,rooms,users);//Obsługa eventów z socketu wybranej gry 
                 }
             })
 
