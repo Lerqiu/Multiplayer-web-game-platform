@@ -42,8 +42,8 @@ module.exports = class ConnectedPlayers {
     }
 
     getAllConnected() {
-        return Array(this.data.keys).map(user => {
-            return UserCookie.Parse(user);
-        })
+        let result = Array(this.data.keys)
+        console.log(JSON.stringify(result))
+        return result
     }
 }
