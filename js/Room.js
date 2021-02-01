@@ -44,4 +44,7 @@ module.exports = class Room {
         return this.roomData.roomPassword;
     }
 
+    getAllConnectedPlayers(){
+        return this.connectedPlayers.getAllConnected();
+    }
 }
