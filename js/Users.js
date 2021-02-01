@@ -53,7 +53,9 @@ module.exports = class Users {
     async addNew(nick, password) {
         var rounds = 12;
         var encryptedPassword = await bcrypt.hash(password, rounds);
-
+	var won = 0;
+	var lost = 0;
+	var remis = 0;
         try {
             await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
             this.data.set(nick, { encryptedPassword, won, lost, remis, gameStats: [] })
