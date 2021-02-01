@@ -35,6 +35,15 @@ module.exports = class Users {
     getR(nick) {
         return this.data.get(nick).remis
     }
+    addWon(nick){
+	this.data.get(nick).won+=1;
+    }
+    addLost(nick){
+	this.data.get(nick).lost+=1;
+    }
+    addRemis(nick){
+	this.data.get(nick).remis+=1;
+    }
 
     /**
     * Sprawdza czy w bazie znajduje się użytkownik o takiej nazwie
@@ -53,9 +62,9 @@ module.exports = class Users {
     async addNew(nick, password) {
         var rounds = 12;
         var encryptedPassword = await bcrypt.hash(password, rounds);
-	var won = 0;
-	var lost = 0;
-	var remis = 0;
+	var won = 42;
+	var lost = 42;
+	var remis = 3;
         try {
             await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
             this.data.set(nick, { encryptedPassword, won, lost, remis, gameStats: [] })
