@@ -44,7 +44,7 @@ module.exports = class ConnectedPlayers {
     getAllConnected() {
         let result = Array.from(this.data.keys)
         result.forEach(elem => {
-            console.log(elem)
+            console.log(JSON.stringify(elem))
         })
         return result
     }
