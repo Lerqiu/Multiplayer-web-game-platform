@@ -51,7 +51,7 @@ module.exports.init = function (app, authorize, rooms) {
         } else if (!basicsGamesData.gamesName().includes(gameName)) {
             error = "Niepoprawny wybór gry.";
         }
-
+user.addWon();
         if (error != "") {
             res.render('./rooms/index.ejs', {
                 nick: req.user.getNick(),
@@ -62,8 +62,7 @@ module.exports.init = function (app, authorize, rooms) {
 		won: req.user.getWon(),
 		lost: req.user.getLost(),
 		remis: req.user.getRemis()
-            }
-user.addWon();)
+            })
         } else {
             //Stworzenie pokoju
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {
