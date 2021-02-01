@@ -26,7 +26,10 @@ module.exports.init = function (app, authorize, rooms) {
             registered: req.user.isRegistered(),
             rooms: rooms.getAvailableRooms(),
             gamesType: basicsGamesData.gamesName(),
-            newRoomError: ""
+            newRoomError: "",
+		won: Users.getW(req.user.getNick()),
+		lost: Users.getL(req.user.getNick()),
+		remis: Users.getR(req.user.getNick())
         })
     }
 
@@ -55,7 +58,10 @@ module.exports.init = function (app, authorize, rooms) {
                 registered: req.user.isRegistered(),
                 rooms: rooms.getAvailableRooms(),
                 gamesType: basicsGamesData.gamesName(),
-                newRoomError: error
+                newRoomError: error,
+		won: Users.getW(req.user.getNick()),
+		lost: Users.getL(req.user.getNick()),
+		remis: Users.getR(req.user.getNick())
             })
         } else {
             //Stworzenie pokoju
