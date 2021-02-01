@@ -38,23 +38,37 @@ process.on('SIGHUP', function () {
 //Łączenie z bazą danych
 client.connect();
 
-let Users = require('./js/Users');
+(async function () {
+    //Pobranie danych z bazy
+    let dataOfUsers = new Map();
+    try {
+        let result = await client.query('SELECT * FROM USERS;');
+        result.rows.forEach(row => {
+            dataOfUsers.set(row[0], { encryptedPassword: row[1], won, lost, remis, gamesStats: [] });
+        })
+    } catch (err) {
+        console.log(err);
+    }
 
-let users = new Users(client);
 
-let loginController = require("./js/loginController");
-let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
+    let Users = require('./js/Users');
 
-let Rooms = require('./js/Rooms');
-let rooms = new Rooms();
+    let users = new Users(client,dataOfUsers);
 
-let roomsControllers = require('./js/roomsControllers');
-roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
+    let loginController = require("./js/loginController");
+    let authorize = loginController(app, users);//Zainicjowanie możliwości logowania i prostej autoryzacji
+
+    let Rooms = require('./js/Rooms');
+    let rooms = new Rooms();
+
+    let roomsControllers = require('./js/roomsControllers');
+    roomsControllers.init(app, authorize, rooms, users); //Wystartowanie pokoi
 
 
-let gameController = require('./js/gamesController');
-gameController.init(app, authorize, rooms, users);
+    let gameController = require('./js/gamesController');
+    gameController.init(app, authorize, rooms, users);
 
-let basicSocket = require('./js/gameSocketBasic');
-basicSocket.init(rooms, users, io);
+    let basicSocket = require('./js/gameSocketBasic');
+    basicSocket.init(rooms, users, io);
 
+})();

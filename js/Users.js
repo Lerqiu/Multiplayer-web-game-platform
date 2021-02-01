@@ -2,20 +2,9 @@ var bcrypt = require('bcrypt');
 
 
 module.exports = class Users {
-    constructor(client) {
+    constructor(client, dataOfUsers) {
         this.client = client;
-        this.data = new Map();// nick : { encryptedPassword , gamesStats:[]}
-
-        (async function () {
-            try {
-                let result = await client.query('SELECT * FROM USERS;');
-                result.rows.forEach(row => {
-                    this.data.set(row[0], { encryptedPassword: row[1], won, lost, remis, gamesStats: [] });
-                })
-            } catch (err) {
-                console.log(err);
-            }
-        })();
+        this.data = dataOfUsers;// nick : { encryptedPassword , gamesStats:[]}
     }
 
     /**
@@ -35,14 +24,14 @@ module.exports = class Users {
     getR(nick) {
         return this.data.get(nick).remis
     }
-    addW(nick){
-	this.data.get(nick).won+=1;
+    addW(nick) {
+        this.data.get(nick).won += 1;
     }
-    addL(nick){
-	this.data.get(nick).lost+=1;
+    addL(nick) {
+        this.data.get(nick).lost += 1;
     }
-    addR(nick){
-	this.data.get(nick).remis+=1;
+    addR(nick) {
+        this.data.get(nick).remis += 1;
     }
 
     /**
@@ -62,9 +51,9 @@ module.exports = class Users {
     async addNew(nick, password) {
         var rounds = 12;
         var encryptedPassword = await bcrypt.hash(password, rounds);
-	var won = 0;
-	var lost = 0;
-	var remis = 0;
+        var won = 0;
+        var lost = 0;
+        var remis = 0;
         try {
             await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
             this.data.set(nick, { encryptedPassword, won, lost, remis, gameStats: [] })
