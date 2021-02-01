@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 let UserCookie = require('./../UserCookie')
+let Users = require('./../Users')
 
 
 module.exports.run = async function (identifier, room, user, req, res) {
