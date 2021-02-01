@@ -42,7 +42,7 @@ module.exports = class ConnectedPlayers {
     }
 
     getAllConnected() {
-        let result = Array(this.data.keys)
+        let result = Array.from(this.data.keys)
         result.forEach(elem => {
             console.log(elem)
         })
