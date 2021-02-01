@@ -43,6 +43,7 @@ client.connect();
     let dataOfUsers = new Map();
     try {
         let result = await client.query('SELECT * FROM USERS;');
+        console.log(JSON.stringify(result))
         result.rows.forEach(row => {
             dataOfUsers.set(row[1], { encryptedPassword: row[2], won :0, lost:0, remis:0, gamesStats: [] });
         })
