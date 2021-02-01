@@ -43,11 +43,8 @@ module.exports = class ConnectedPlayers {
     }
 
     getAllConnected() {
-        let result = Array.from(this.data.keys())
-        console.log(`Ilość kluczy: ${this.data.size}`)
-        result.forEach(elem => {
-            console.log(JSON.stringify(elem))
+        return Array.from(this.data.keys()).map(elem => {
+            return UserCookie.Parse(elem)
         })
-        return result
     }
 }
