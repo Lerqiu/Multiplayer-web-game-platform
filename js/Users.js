@@ -63,10 +63,17 @@ module.exports = class Users {
     }
 
     async areLoginDataCorrect(nick, password) {
-        if (!this.hasUser(nick))
+        console.log(`Próba logowania`)
+        if (!this.hasUser(nick)){
+            console.log(`Użytkownik ${nick} nie istnieje`)
             return false;
+        }
         var passwordInBase = this.getPassword(nick);
         let isCorrect = await bcrypt.compare(password, passwordInBase);
+
+        console.log(`Pass: ${password}`)
+        console.log(`Pass2 ${encryptedPassword}`)
+        console.log(`Weryfikacja użytkownika ${nick} z wynikiem: ${isCorrect}`)
         return isCorrect;
     }
 }

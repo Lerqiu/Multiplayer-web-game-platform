@@ -49,6 +49,7 @@ client.connect();
     } catch (err) {
         console.log(err);
     }
+    console.log(JSON.stringify(dataOfUsers))
 
 
     let Users = require('./js/Users');
