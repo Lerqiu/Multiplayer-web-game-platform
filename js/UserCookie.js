@@ -4,14 +4,17 @@ module.exports = class UserCookie {
     constructor(nick, mode) {
         this.nick = nick;
         this.mode = mode;
+	this.won = 0;
+	this.lost = 0;
+	this.remis = 0;
     }
 
     stringify() {
-        return JSON.stringify({ nick: this.nick, mode: this.mode})
+        return JSON.stringify({ nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis})
     }
 
     toObject() {
-        return { nick: this.nick, mode: this.mode};
+        return { nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis};
     }
 
 
@@ -26,7 +29,25 @@ module.exports = class UserCookie {
     getNick() {
         return this.nick;
     }
-    
+    getWon() {
+        return this.won;
+    }
+    getLost() {
+        return this.lost;
+    }
+    getRemis() {
+        return this.remis;
+    }
+    addWon(){
+	this.won+=1;
+    }
+    addLost(){
+	this.lost+=1;
+    }
+    addRemis(){
+	this.remis+=1;
+    }
+
     /**
      * Sprawdzenie czy obiekty przetrzymują identyczne wartości
      * @param {UserCookie} user2 
@@ -41,7 +62,7 @@ module.exports = class UserCookie {
 
     static Parse(cookie) {
         let parsedCookie = JSON.parse(cookie);
-        return new UserCookie(parsedCookie.nick, parsedCookie.mode);
+        return new UserCookie(parsedCookie.nick, parsedCookie.mode, parsedCookie.won, parsedCookie.lost, parsedCookie.remis);
     }
 
     /**

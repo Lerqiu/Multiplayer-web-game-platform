@@ -59,15 +59,16 @@ module.exports.init = function (app, authorize, rooms) {
                 rooms: rooms.getAvailableRooms(),
                 gamesType: basicsGamesData.gamesName(),
                 newRoomError: error,
-		won: req.user.getWon(req.user.getNick()),
-		lost: req.user.getLost(req.user.getNick()),
-		remis: req.user.getRemis(req.user.getNick())
+		won: req.user.getWon(),
+		lost: req.user.getLost(),
+		remis: req.user.getRemis()
             })
         } else {
             //Stworzenie pokoju
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {
                 //res.end("Todo");//Przekierowanie do nowo utworzonego pokoju
-                res.redirect(req.url) 
+                res.redirect(req.url)
+ 
             })
         }
     }
