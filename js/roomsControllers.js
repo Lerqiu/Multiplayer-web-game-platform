@@ -59,9 +59,9 @@ module.exports.init = function (app, authorize, rooms) {
                 rooms: rooms.getAvailableRooms(),
                 gamesType: basicsGamesData.gamesName(),
                 newRoomError: error,
-		won: req.user.getWon(),
-		lost: req.user.getLost(),
-		remis: req.user.getRemis()
+		won: req.user.getWon(req.user.getNick()),
+		lost: req.user.getLost(req.user.getNick()),
+		remis: req.user.getRemis(req.user.getNick())
             })
         } else {
             //Stworzenie pokoju
