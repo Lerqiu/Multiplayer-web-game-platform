@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt');
 module.exports = class Users {
     constructor(client,dataOfUsers) {
         this.client = client;
-        this.data = new Map();// nick : { encryptedPassword , gamesStats:[]}
+        this.data = dataOfUsers;// nick : { encryptedPassword , gamesStats:[]}
     }
 
     /**
