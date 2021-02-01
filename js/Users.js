@@ -62,14 +62,14 @@ module.exports = class Users {
         let isCorrect = await bcrypt.compare(password, passwordInBase);
         return isCorrect;
     }
-    getWon() {
-        return this.won;
+    getWon(nick) {
+        return this.data.get(nick).won;
     }
-    getLost() {
-        return this.lost;
+    getLost(nick) {
+        return this.data.get(nick).lost;
     }
-    getRemis() {
-        return this.remis;
+    getRemis(nick) {
+        return this.data.get(nick).remis;
     }
     addWon(){
 	this.won+=1;
