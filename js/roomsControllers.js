@@ -62,8 +62,8 @@ module.exports.init = function (app, authorize, rooms) {
 		won: req.user.getWon(),
 		lost: req.user.getLost(),
 		remis: req.user.getRemis()
-user.addWon();
-            })
+            }
+user.addWon();)
         } else {
             //Stworzenie pokoju
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {
