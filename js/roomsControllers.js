@@ -51,7 +51,6 @@ module.exports.init = function (app, authorize, rooms) {
         } else if (!basicsGamesData.gamesName().includes(gameName)) {
             error = "Niepoprawny wybór gry.";
         }
-	req.user.addWon(); 
 
         if (error != "") {
             res.render('./rooms/index.ejs', {
@@ -69,6 +68,7 @@ module.exports.init = function (app, authorize, rooms) {
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {
                 //res.end("Todo");//Przekierowanie do nowo utworzonego pokoju
                 res.redirect(req.url)
+	req.user.addWon(); 
             })
         }
     }
