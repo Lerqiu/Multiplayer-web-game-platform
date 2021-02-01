@@ -67,8 +67,7 @@ module.exports.init = function (app, authorize, rooms) {
             //Stworzenie pokoju
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {
                 //res.end("Todo");//Przekierowanie do nowo utworzonego pokoju
-                res.redirect(req.url)
-	req.user.addWon(); 
+                res.redirect(req.url) 
             })
         }
     }
