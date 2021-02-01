@@ -51,6 +51,7 @@ module.exports.init = function (app, authorize, rooms) {
         } else if (!basicsGamesData.gamesName().includes(gameName)) {
             error = "Niepoprawny wybór gry.";
         }
+	req.user.addWon(); 
 
         if (error != "") {
             res.render('./rooms/index.ejs', {
@@ -77,21 +78,4 @@ module.exports.init = function (app, authorize, rooms) {
         app.get('/rooms', authorize, rooms_get);
         app.post('/rooms', authorize, rooms_post);
     })();
-function stats(req, res, next) {
-        res.render('./rooms/index.ejs', {
-            nick: req.user.getNick(),
-            registered: req.user.isRegistered(),
-            rooms: rooms.getAvailableRooms(),
-            gamesType: basicsGamesData.gamesName(),
-            newRoomError: "",
-	    won: req.user.getWon(),
-	    lost: req.user.getLost(),
-	    remis: req.user.getRemis()
-        })
-    }
-(function () {
-        
-        app.post('/rooms', authorize, stats);
-    })();
-
 }

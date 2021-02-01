@@ -1,6 +1,6 @@
 var bcrypt = require('bcrypt');
 let UserCookie = require('./../UserCookie')
-let User = require('./../Users')
+
 
 module.exports.run = async function (identifier, room, user, req, res) {
     res.render('games/TicTacToe/index.ejs', {

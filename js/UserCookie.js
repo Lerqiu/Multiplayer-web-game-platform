@@ -29,22 +29,22 @@ module.exports = class UserCookie {
     getNick() {
         return this.nick;
     }
-	getWon() {
+    getWon() {
         return this.won;
     }
-	getLost() {
+    getLost() {
         return this.lost;
     }
-	getRemis() {
+    getRemis() {
         return this.remis;
     }
-	addWon(){
+    addWon(){
 	this.won+=1;
     }
-	addLost(){
+    addLost(){
 	this.lost+=1;
     }
-	raddRemis(){
+    addRemis(){
 	this.remis+=1;
     }
 
