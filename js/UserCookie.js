@@ -1,12 +1,12 @@
 
 
 module.exports = class UserCookie {
-    constructor(nick, mode) {
+    constructor(nick, mode, w, l, r) {
         this.nick = nick;
         this.mode = mode;
-	this.won = 0;
-	this.lost = 0;
-	this.remis = 0;
+	this.won = w;
+	this.lost = l;
+	this.remis = r;
     }
 
     stringify() {
@@ -69,15 +69,15 @@ module.exports = class UserCookie {
     * Tworzy obiekt ciastka dla anonimowego użytkownika
     * @param {string } nick
     */
-    static MakeAnonymous(nick) {
-        return new UserCookie(nick, "anonymous");
+    static MakeAnonymous(nick, w ,l, r) {
+        return new UserCookie(nick, "anonymous", w ,l, r);
     }
 
     /**
     * Tworzy obiekt ciastka dla zarejestrowanego użytkownika
     * @param {string } nick
     */
-    static MakeRegistered(nick) {
-        return new UserCookie(nick, "registered");
+    static MakeRegistered(nick, w ,l, r) {
+        return new UserCookie(nick, "registered", w ,l, r);
     }
 }

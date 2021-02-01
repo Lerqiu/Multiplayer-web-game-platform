@@ -24,7 +24,7 @@ module.exports = function (app, users) {
         var nick = req.body.nick;
         if (mode === 'anonymous') {
             if (!users.hasUser(nick)) {
-                res.cookie('user', UserCookie.MakeAnonymous(nick).stringify(), { signed: true });
+                res.cookie('user', UserCookie.MakeAnonymous(nick, 0, 0, 0).stringify(), { signed: true });
                 next();
             } else {
                 res.render("login/index.ejs", { loginError: "", loginAnonymousError: `Nick: ${req.body.nick} jest już zajęty.` });
@@ -32,7 +32,7 @@ module.exports = function (app, users) {
         } else if (mode === 'registering') {
             users.areLoginDataCorrect(nick, password).then(result => {
                 if (result) {
-                    res.cookie('user', UserCookie.MakeRegistered(nick).stringify(), { signed: true });
+                    res.cookie('user', UserCookie.MakeRegistered(nick, users.getW(nick), users.getL(nick), users.getR(nick)).stringify(), { signed: true });
                     next();
                 }
                 else {
@@ -87,7 +87,7 @@ module.exports = function (app, users) {
         let nick = req.body.nick;
         let password = req.body.password;
         if (!users.hasUser(nick)) {
-            res.cookie('user', UserCookie.MakeRegistered(nick).stringify(), { signed: true });
+            res.cookie('user', UserCookie.MakeRegistered(nick, users.getW(nick), users.getL(nick), users.getR(nick)).stringify(), { signed: true });
             users.addNew(nick, password).then(result => {
                 next()
             })
