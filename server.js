@@ -44,7 +44,7 @@ client.connect();
     try {
         let result = await client.query('SELECT * FROM USERS;');
         result.rows.forEach(row => {
-            dataOfUsers.set(row[0], { encryptedPassword: row[1], won :0, lost:0, remis:0, gamesStats: [] });
+            dataOfUsers.set(row[1], { encryptedPassword: row[2], won :0, lost:0, remis:0, gamesStats: [] });
         })
     } catch (err) {
         console.log(err);
