@@ -43,15 +43,12 @@ client.connect();
     let dataOfUsers = new Map();
     try {
         let result = await client.query('SELECT * FROM USERS;');
-        console.log(JSON.stringify(result.rows))
         result.rows.forEach(row => {
-            console.log(row)
             dataOfUsers.set(row.nick, { encryptedPassword: row.userpassword, won :0, lost:0, remis:0, gamesStats: [] });
         })
     } catch (err) {
         console.log(err);
     }
-    console.log(JSON.stringify(dataOfUsers))
 
 
     let Users = require('./js/Users');
