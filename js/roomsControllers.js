@@ -51,7 +51,7 @@ module.exports.init = function (app, authorize, rooms) {
         } else if (!basicsGamesData.gamesName().includes(gameName)) {
             error = "Niepoprawny wybór gry.";
         }
-user.addWon();
+
         if (error != "") {
             res.render('./rooms/index.ejs', {
                 nick: req.user.getNick(),
