@@ -1,20 +1,17 @@
 
 
 module.exports = class UserCookie {
-    constructor(nick, mode, w, l, r) {
+    constructor(nick, mode) {
         this.nick = nick;
         this.mode = mode;
-	this.won = w;
-	this.lost = l;
-	this.remis = r;
     }
 
     stringify() {
-        return JSON.stringify({ nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis})
+        return JSON.stringify({ nick: this.nick, mode: this.mode})
     }
 
     toObject() {
-        return { nick: this.nick, mode: this.mode, won: this.won, lost: this.lost, remis: this.remis};
+        return { nick: this.nick, mode: this.mode};
     }
 
 
@@ -29,24 +26,7 @@ module.exports = class UserCookie {
     getNick() {
         return this.nick;
     }
-    getWon() {
-        return this.won;
-    }
-    getLost() {
-        return this.lost;
-    }
-    getRemis() {
-        return this.remis;
-    }
-    addWon(){
-	this.won+=1;
-    }
-    addLost(){
-	this.lost+=1;
-    }
-    addRemis(){
-	this.remis+=1;
-    }
+    
 
     /**
      * Sprawdzenie czy obiekty przetrzymują identyczne wartości
@@ -57,27 +37,27 @@ module.exports = class UserCookie {
     }
 
     static FromObject(obj) {
-        return new UserCookie(obj.nick, obj.mode, obj.won, obj.lost, obj.remis);
+        return new UserCookie(obj.nick, obj.mode);
     }
 
     static Parse(cookie) {
         let parsedCookie = JSON.parse(cookie);
-        return new UserCookie(parsedCookie.nick, parsedCookie.mode, parsedCookie.won, parsedCookie.lost, parsedCookie.remis);
+        return new UserCookie(parsedCookie.nick, parsedCookie.mode);
     }
 
     /**
     * Tworzy obiekt ciastka dla anonimowego użytkownika
     * @param {string } nick
     */
-    static MakeAnonymous(nick, w ,l, r) {
-        return new UserCookie(nick, "anonymous", w ,l, r);
+    static MakeAnonymous(nick) {
+        return new UserCookie(nick, "anonymous");
     }
 
     /**
     * Tworzy obiekt ciastka dla zarejestrowanego użytkownika
     * @param {string } nick
     */
-    static MakeRegistered(nick, w ,l, r) {
-        return new UserCookie(nick, "registered", w ,l, r);
+    static MakeRegistered(nick) {
+        return new UserCookie(nick, "registered");
     }
 }
