@@ -27,7 +27,7 @@ module.exports.init = function (app, authorize, rooms) {
             rooms: rooms.getAvailableRooms(),
             gamesType: basicsGamesData.gamesName(),
             newRoomError: "",
-	    won: Users.getW(req.user.getNick())
+	    won: users.getW(req.user.getNick())
         })
     }
 
