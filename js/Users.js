@@ -5,17 +5,7 @@ module.exports = class Users {
     constructor(client,dataOfUsers) {
         this.client = client;
         this.data = new Map();// nick : { encryptedPassword , gamesStats:[]}
-       (async function () {
-            try {
-                let result = await client.query('SELECT * FROM USERS;');
-                result.forEach(row => {
-                    this.data.set(row[0], { encryptedPassword: row[1], gamesStats: [] });
-                })
-            } catch (err) {
-                console.log(err);
-            }
-        })();
-    }    
+    }
 
     /**
     * Uzyskanie (w zaszyfrowanej formie) hasło wybranego użytkownika
