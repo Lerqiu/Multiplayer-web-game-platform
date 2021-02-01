@@ -26,6 +26,15 @@ module.exports = class Users {
     getPassword(nick) {
         return this.data.get(nick).encryptedPassword
     }
+    getW(nick) {
+        return this.data.get(nick).won
+    }
+    getL(nick) {
+        return this.data.get(nick).lost
+    }
+    getR(nick) {
+        return this.data.get(nick).remis
+    }
 
     /**
     * Sprawdza czy w bazie znajduje się użytkownik o takiej nazwie
