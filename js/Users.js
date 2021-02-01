@@ -72,7 +72,7 @@ module.exports = class Users {
         let isCorrect = await bcrypt.compare(password, passwordInBase);
 
         console.log(`Pass: ${password}`)
-        console.log(`Pass2 ${encryptedPassword}`)
+        console.log(`Pass2 ${passwordInBase}`)
         console.log(`Weryfikacja użytkownika ${nick} z wynikiem: ${isCorrect}`)
         return isCorrect;
     }
