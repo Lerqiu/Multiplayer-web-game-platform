@@ -39,7 +39,7 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 }
 
 
-module.exports.socketDo = function (socket, io, room, user, rooms) {
+module.exports.socketDo = function (socket, io, room, user, rooms, users) {
     socket.on('userMove', arg => {
         if (typeof room.gameData !== 'undefined') {
             if (user.isIdentical(room.gameData.users[room.gameData.turnNowBy])) {
@@ -48,11 +48,11 @@ module.exports.socketDo = function (socket, io, room, user, rooms) {
 
                     if (didSomeoneWon(room.gameData.history[0])) {
                         io.to(room.id).emit('won', user.getNick());
-			user.addW(user.getNick());                       
+			users.addW(user.getNick());                       
 			rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
                         io.to(room.id).emit('end', '');
-			user.addR(user.getNick());
+			users.addR(user.getNick());
                         rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);
