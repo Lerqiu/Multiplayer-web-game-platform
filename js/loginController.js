@@ -87,7 +87,7 @@ module.exports = function (app, users) {
         let nick = req.body.nick;
         let password = req.body.password;
         if (!users.hasUser(nick)) {
-            res.cookie('user', UserCookie.MakeRegistered(nick, users.getW(nick), users.getL(nick), users.getR(nick)).stringify(), { signed: true });
+            res.cookie('user', UserCookie.MakeRegistered(nick, 0, 0, 0).stringify(), { signed: true });
             users.addNew(nick, password).then(result => {
                 next()
             })
