@@ -10,7 +10,7 @@ module.exports = class Users {
             try {
                 let result = await client.query('SELECT * FROM USERS;');
                 result.forEach(row => {
-                    this.data.set(row[0], { encryptedPassword: row[1], gamesStats: [] });
+                    this.data.set(row[0], { encryptedPassword: row[1], won, lost, remis, gamesStats: [] });
                 })
             } catch (err) {
                 console.log(err);
@@ -47,7 +47,7 @@ module.exports = class Users {
 
         try {
             await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
-            this.data.set(nick, { encryptedPassword, gameStats: [] })
+            this.data.set(nick, { encryptedPassword, won, lost, remis, gameStats: [] })
         } catch (err) {
             console.log(err);
         }
