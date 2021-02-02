@@ -89,7 +89,7 @@ function startGame(socket) {
     })
     socket.on('won', arg => {
         alert(`Grę wygrał(a): ${arg} `);
-        window.location.replace(window.location.hostname + 'rooms');
+        window.location.replace('rooms');
     })
     socket.on('userUpdate', arg => {
         setUsersName(arg)
