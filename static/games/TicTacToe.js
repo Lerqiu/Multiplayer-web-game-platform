@@ -85,11 +85,11 @@ function startGame(socket) {
 
     socket.on('end', arg => {
         alert('Gra została zakończona remisem.');
-        window.location.href = window.location.hostname + '/rooms';
+        window.location.href = window.location.hostname;
     })
     socket.on('won', arg => {
         alert(`Grę wygrał(a): ${arg} `);
-        window.location.href = window.location.hostname + '/rooms';
+        window.location.href = window.location.hostname;
     })
     socket.on('userUpdate', arg => {
         setUsersName(arg)
