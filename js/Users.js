@@ -63,7 +63,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick))
                 this.data.get(nick).won += 1;
-        } catch { err } {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -71,7 +71,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick))
                 this.data.get(nick).lost += 1;
-        } catch { err } {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -79,7 +79,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick))
                 this.data.get(nick).remis += 1;
-        } catch { err } {
+        } catch (err) {
             console.log(err)
         }
     }
