@@ -43,12 +43,8 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
     function getEnemyNick(user, allPlayers) {
         allPlayers.forEach(element => {
             if (user.getNick() != element.getNick()) {
-                try {
-                    return element.getNick();
-                } catch (err) {
-                    console.log(err)
-                }
-               
+                console.log("Mamy wroga")
+                return element.getNick();
             }
         });
         return "";
