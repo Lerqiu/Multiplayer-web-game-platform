@@ -67,7 +67,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick)) {
                 this.getStats(nick).this(stats => {
-                    await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.won + 1]);
+                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.won + 1]);
                 })
             }
             console.log(`Wygrał gracz: ${nick}`)
@@ -79,7 +79,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick)) {
                 this.getStats(nick).this(stats => {
-                    await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
+                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
                 })
             }
             console.log(`Przegrał gracz: ${nick}`)
@@ -91,7 +91,7 @@ module.exports = class Users {
         try {
             if (this.hasUser(nick)) {
                 this.getStats(nick).this(stats => {
-                    await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
+                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
                 })
             }
             console.log(`Zremisował gracz: ${nick}`)
