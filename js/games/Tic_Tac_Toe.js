@@ -41,12 +41,12 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 
 module.exports.socketDo = function (socket, io, room, user, rooms, users) {
     function getEnemyNick(user, allPlayers) {
-        allPlayers.forEach(element => {
+        for (let element of allPlayers) {
             if (user.getNick() != element.getNick()) {
                 console.log("Mamy wroga")
                 return element.getNick();
             }
-        });
+        }
         return "";
     }
 
