@@ -52,7 +52,7 @@ module.exports = class Users {
     }
 
     async getStats(nick) {
-        if (this.data.hasUser(nick)) {
+        if (this.hasUser(nick)) {
             return { won: 0, lost: 0, remis: 0 }
         } else {
             console.log(`Brak użytkownika ${nick}. Zostaną zwrócone domyślne statystyki`)
