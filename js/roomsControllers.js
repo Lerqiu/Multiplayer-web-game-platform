@@ -25,7 +25,7 @@ module.exports.init = function (app, authorize, rooms, users) {
 	    if(req.user.isRegistered()){
 	    won: users.getW(req.user.getNick()),
             lost: users.getL(req.user.getNick()),
-            remis: users.getR(req.user.getNick()),}
+            remis: users.getR(req.user.getNick())}
             nick: req.user.getNick(),
             registered: req.user.isRegistered(),
             rooms: rooms.getAvailableRooms(),
@@ -58,7 +58,7 @@ module.exports.init = function (app, authorize, rooms, users) {
 		if(req.user.isRegistered()){
 		won: users.getW(req.user.getNick()),
         	lost: users.getL(req.user.getNick()),
-        	remis: users.getR(req.user.getNick()),}
+        	remis: users.getR(req.user.getNick())}
                 nick: req.user.getNick(),
                 registered: req.user.isRegistered(),
                 rooms: rooms.getAvailableRooms(),
