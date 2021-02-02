@@ -22,14 +22,15 @@ module.exports.init = function (app, authorize, rooms, users) {
      */
     function rooms_get(req, res, next) {
         res.render('./rooms/index.ejs', {
+	    if(req.user.isRegistered()){
+	    won: users.getW(req.user.getNick()),
+            lost: users.getL(req.user.getNick()),
+            remis: users.getR(req.user.getNick()),}
             nick: req.user.getNick(),
             registered: req.user.isRegistered(),
             rooms: rooms.getAvailableRooms(),
             gamesType: basicsGamesData.gamesName(),
-            newRoomError: "",
-            won: users.getW(req.user.getNick()),
-            lost: users.getL(req.user.getNick()),
-            remis: users.getR(req.user.getNick())
+            newRoomError: ""
         })
     }
 
@@ -54,14 +55,16 @@ module.exports.init = function (app, authorize, rooms, users) {
 
         if (error != "") {
             res.render('./rooms/index.ejs', {
+		if(req.user.isRegistered()){
+		won: users.getW(req.user.getNick()),
+        	lost: users.getL(req.user.getNick()),
+        	remis: users.getR(req.user.getNick()),}
                 nick: req.user.getNick(),
                 registered: req.user.isRegistered(),
                 rooms: rooms.getAvailableRooms(),
                 gamesType: basicsGamesData.gamesName(),
-                newRoomError: error,
-                won: users.getW(req.user.getNick()),
-                lost: users.getL(req.user.getNick()),
-                remis: users.getR(req.user.getNick())
+                newRoomError: error
+               
             })
         } else {
             //Stworzenie pokoju
