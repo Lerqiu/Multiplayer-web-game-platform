@@ -44,7 +44,7 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
         allPlayers.forEach(element => {
             if (user.getNick() != element.getNick()) {
                 try {
-                    if (element.isRegistered()) {
+                    if (users.hasUser(element.getNick())) {
                         console.log(`Nick : ${element.getNick()}`)
                         fun(element.getNick())
                     }
@@ -58,8 +58,8 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
 
     function changeStatOnYourself(user, fun) {
         try {
-            if (user.isRegistered()) {
-                console.log(`Nick : ${element.getNick()}`)
+            if (users.hasUser(user.getNick())) {
+                console.log(`Nick : ${user.getNick()}`)
                 fun(user.getNick())
             }
         } catch (err) {
