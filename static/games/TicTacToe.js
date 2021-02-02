@@ -85,14 +85,16 @@ function startGame(socket) {
 
     socket.on('end', arg => {
         alert('Gra została zakończona remisem.');
-        window.location.href =(window.location.host + '/rooms')
+        window.location.href = (window.location.protocol + '//'+window.location.host + '/rooms');
     })
     socket.on('won', arg => {
         alert(`Grę wygrał(a): ${arg} `);
-        window.location.href = (window.location.host + '/rooms')
+        window.location.href = (window.location.protocol + '//'+window.location.host + '/rooms');
     })
     socket.on('userUpdate', arg => {
         setUsersName(arg)
     })
     addEventListenersForBoard(socket);
 }
+
+//https://secure-dusk-21204.herokuapp.com/room/secure-dusk-21204.herokuapp.com/rooms
