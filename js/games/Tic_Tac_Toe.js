@@ -73,14 +73,14 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
 
                     if (didSomeoneWon(room.gameData.history[0])) {
                         changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addL);
-                        changeStatOnYourself(user, room.getAllConnectedPlayers(), users.addW);
+                        changeStatOnYourself(user,  users.addW);
                         io.to(room.id).emit('won', user.getNick());
                         rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
                         console.log(JSON.stringify(room.getAllConnectedPlayers()))
                         io.to(room.id).emit('end', '');
                         changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addR);
-                        changeStatOnYourself(user, room.getAllConnectedPlayers(), users.addR);
+                        changeStatOnYourself(user, users.addR);
                         rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);
