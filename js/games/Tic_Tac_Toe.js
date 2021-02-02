@@ -40,27 +40,25 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 
 
 module.exports.socketDo = function (socket, io, room, user, rooms, users) {
-    function changeStatOnEnemy(user, allPlayers, fun) {
+    function getEnemyNick(user, allPlayers) {
         allPlayers.forEach(element => {
             if (user.getNick() != element.getNick()) {
                 try {
                     if (users.hasUser(element.getNick())) {
-                        console.log(`Nick : ${element.getNick()}`)
-                        fun(element.getNick())
+                        return element.getNick();
                     }
                 } catch (err) {
                     console.log(err)
                 }
-                return;
+                return "";
             }
         });
     }
 
-    function changeStatOnYourself(user, fun) {
+    function getYourselfNick(user) {
         try {
             if (users.hasUser(user.getNick())) {
-                console.log(`Nick : ${user.getNick()}`)
-                fun(user.getNick())
+               return user.getNick();
             }
         } catch (err) {
             console.log(err)
@@ -74,15 +72,14 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
                     room.gameData.history.unshift(newStateOfBoard(room.gameData.history[0], arg.y, arg.x, room.gameData.turnNowBy));
 
                     if (didSomeoneWon(room.gameData.history[0])) {
-                        changeStatOnYourself(user,  users.addW);
-                        changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addL);
+                        users.addW(getYourselfNick(user));
+                        users.addL(getEnemyNick(user, room.getAllConnectedPlayers()));
                         io.to(room.id).emit('won', user.getNick());
                         rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
-                        console.log(JSON.stringify(room.getAllConnectedPlayers()))
                         io.to(room.id).emit('end', '');
-                        changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addR);
-                        changeStatOnYourself(user, users.addR);
+                        users.addL(getYourselfNick(user));
+                        users.addW(getEnemyNick(user, room.getAllConnectedPlayers()));
                         rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);

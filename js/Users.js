@@ -60,17 +60,28 @@ module.exports = class Users {
         return this.data.get(nick).remis
     }
     addW(nick) {
-        console.log(nick)
-        console.log(this.hasUser(nick))
-        console.log(JSON.stringify(this.data.get(nick)))
-        console.log(this.data.get(nick).won)
-        this.data.get(nick).won += 1;
+        try {
+            if (this.hasUser(nick))
+                this.data.get(nick).won += 1;
+        } catch { err } {
+            console.log(err)
+        }
     }
     addL(nick) {
-        this.data.get(nick).lost += 1;
+        try {
+            if (this.hasUser(nick))
+                this.data.get(nick).lost += 1;
+        } catch { err } {
+            console.log(err)
+        }
     }
     addR(nick) {
-        this.data.get(nick).remis += 1;
+        try {
+            if (this.hasUser(nick))
+                this.data.get(nick).remis += 1;
+        } catch { err } {
+            console.log(err)
+        }
     }
 
     /**
