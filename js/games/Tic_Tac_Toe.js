@@ -73,8 +73,8 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
                         rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
                         io.to(room.id).emit('end', '');
-                        users.addL(getYourselfNick(user));
-                        users.addW(getEnemyNick(user, room.getAllConnectedPlayers()));
+                        users.addR(getYourselfNick(user));
+                        users.addR(getEnemyNick(user, room.getAllConnectedPlayers()));
                         rooms.removeRoom(room.id);
                     } else {
                         room.gameData.turnNowBy = nextTurn(room.gameData.turnNowBy);
