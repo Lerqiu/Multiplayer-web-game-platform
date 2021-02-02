@@ -66,9 +66,10 @@ module.exports = class Users {
     addW(nick) {
         try {
             if (this.hasUser(nick)) {
+                let classObject = this;
                 (async function () {
-                    let stats =await  this.getStats(nick);
-                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.won + 1]);
+                    let stats = await classObject.getStats(nick);
+                    await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.won + 1]);
                 })()
             }
             console.log(`Wygrał gracz: ${nick}`)
@@ -79,9 +80,10 @@ module.exports = class Users {
     addL(nick) {
         try {
             if (this.hasUser(nick)) {
+                let classObject = this;
                 (async function () {
-                    let stats =await  this.getStats(nick);
-                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
+                    let stats = await this.getStats(nick);
+                    await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
                 })()
             }
             console.log(`Przegrał gracz: ${nick}`)
@@ -92,9 +94,10 @@ module.exports = class Users {
     addR(nick) {
         try {
             if (this.hasUser(nick)) {
+                let classObject = this;
                 (async function () {
-                    let stats =await  this.getStats(nick);
-                    this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
+                    let stats = await classObject.getStats(nick);
+                    await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
                 })()
             }
             console.log(`Zremisował gracz: ${nick}`)
