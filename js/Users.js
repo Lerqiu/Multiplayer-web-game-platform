@@ -53,17 +53,22 @@ module.exports = class Users {
 
     async getStats(nick) {
         if (this.hasUser(nick)) {
-            return { won: 0, lost: 0, remis: 0 }
-        } else {
-            console.log(`Brak użytkownika ${nick}. Zostaną zwrócone domyślne statystyki`)
-            return { won: 0, lost: 0, remis: 0 }
+            let result = await this.client.query('SELECT * FROM Stats WHERE Nick = $1;', [nick]);
+
+            if (result.rows.length > 0) {
+                return { won: result.rows[0].won, lost: result.rows[0].lost, remis: result.rows[0].remis }
+            }
         }
+        console.log(`Brak użytkownika ${nick}. Zostaną zwrócone domyślne statystyki`)
+        return { won: 0, lost: 0, remis: 0 }
     }
 
     addW(nick) {
         try {
-            if (this.hasUser(nick))
-                this.data.get(nick).won += 1;
+            if (this.hasUser(nick)) {
+                let stats = this.getStats(nick);
+                await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.won + 1]);
+            }
             console.log(`Wygrał gracz: ${nick}`)
         } catch (err) {
             console.log(err)
@@ -71,8 +76,10 @@ module.exports = class Users {
     }
     addL(nick) {
         try {
-            if (this.hasUser(nick))
-                this.data.get(nick).lost += 1;
+            if (this.hasUser(nick)) {
+                let stats = this.getStats(nick);
+                await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
+            }
             console.log(`Przegrał gracz: ${nick}`)
         } catch (err) {
             console.log(err)
@@ -80,8 +87,10 @@ module.exports = class Users {
     }
     addR(nick) {
         try {
-            if (this.hasUser(nick))
-                this.data.get(nick).remis += 1;
+            if (this.hasUser(nick)) {
+                let stats = this.getStats(nick);
+                await this.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
+            }
             console.log(`Zremisował gracz: ${nick}`)
         } catch (err) {
             console.log(err)
