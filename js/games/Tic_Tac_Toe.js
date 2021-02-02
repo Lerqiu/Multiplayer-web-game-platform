@@ -44,6 +44,7 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
         allPlayers.forEach(element => {
             if (user.getNick() != element.getNick()) {
                 try {
+                    console.log(JSON.stringify(element))
                     if (element.isRegistered()) {
                         fun(element.getNick())
                     }
@@ -72,8 +73,8 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
                     room.gameData.history.unshift(newStateOfBoard(room.gameData.history[0], arg.y, arg.x, room.gameData.turnNowBy));
 
                     if (didSomeoneWon(room.gameData.history[0])) {
-                        changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addL);
                         changeStatOnYourself(user,  users.addW);
+                        changeStatOnEnemy(user, room.getAllConnectedPlayers(), users.addL);
                         io.to(room.id).emit('won', user.getNick());
                         rooms.removeRoom(room.id);
                     } else if (isEndOfGame(room.gameData.history[0])) {
