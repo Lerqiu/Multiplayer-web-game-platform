@@ -4,6 +4,7 @@ let express = require('express');
 let Users = require('./Users')
 var socket = require('socket.io');
 let basicsGamesData = require('./basicsGamesData');
+const { stat } = require('fs');
 
 /**
 * Inicjalizacja strony z pokojami
@@ -21,25 +22,28 @@ module.exports.init = function (app, authorize, rooms, users) {
      * @param {*} next
      */
     function rooms_get(req, res, next) {
-        if(req.user.isRegistered()){
-	    res.render('./rooms/index.ejs', {
-	    won: users.getW(req.user.getNick()),
-            lost: users.getL(req.user.getNick()),
-            remis: users.getR(req.user.getNick()),
-            nick: req.user.getNick(),
-            registered: req.user.isRegistered(),
-            rooms: rooms.getAvailableRooms(),
-            gamesType: basicsGamesData.gamesName(),
-            newRoomError: ""
-        })}
-	else{
-	    res.render('./rooms/index.ejs', {
-	    nick: req.user.getNick(),
-            registered: req.user.isRegistered(),
-            rooms: rooms.getAvailableRooms(),
-            gamesType: basicsGamesData.gamesName(),
-            newRoomError: ""
-        })}
+        if (req.user.isRegistered() && users.hasUser(req.user.getNick())) {
+            users.getStats(req.user.getNick()).then(stats => {
+                res.render('./rooms/index.ejs', {
+                    won: stats.won,
+                    lost: stats.lost,
+                    remis: stats.remis,
+                    nick: req.user.getNick(),
+                    registered: req.user.isRegistered(),
+                    rooms: rooms.getAvailableRooms(),
+                    gamesType: basicsGamesData.gamesName(),
+                    newRoomError: ""
+                })
+            })
+        } else {
+            res.render('./rooms/index.ejs', {
+                nick: req.user.getNick(),
+                registered: req.user.isRegistered(),
+                rooms: rooms.getAvailableRooms(),
+                gamesType: basicsGamesData.gamesName(),
+                newRoomError: ""
+            })
+        }
     }
 
     /**
@@ -62,25 +66,26 @@ module.exports.init = function (app, authorize, rooms, users) {
         }
 
         if (error != "") {
-            if(req.user.isRegistered()){
-	    res.render('./rooms/index.ejs', {
-	    won: users.getW(req.user.getNick()),
-            lost: users.getL(req.user.getNick()),
-            remis: users.getR(req.user.getNick()),
-            nick: req.user.getNick(),
-            registered: req.user.isRegistered(),
-            rooms: rooms.getAvailableRooms(),
-            gamesType: basicsGamesData.gamesName(),
-            newRoomError: error
-        })}
-	else{
-	    res.render('./rooms/index.ejs', {
-	    nick: req.user.getNick(),
-            registered: req.user.isRegistered(),
-            rooms: rooms.getAvailableRooms(),
-            gamesType: basicsGamesData.gamesName(),
-            newRoomError: error
-        })}
+            if (req.user.isRegistered()) {
+                res.render('./rooms/index.ejs', {
+                    won: users.getW(req.user.getNick()),
+                    lost: users.getL(req.user.getNick()),
+                    remis: users.getR(req.user.getNick()),
+                    nick: req.user.getNick(),
+                    registered: req.user.isRegistered(),
+                    rooms: rooms.getAvailableRooms(),
+                    gamesType: basicsGamesData.gamesName(),
+                    newRoomError: error
+                })
+            } else {
+                res.render('./rooms/index.ejs', {
+                    nick: req.user.getNick(),
+                    registered: req.user.isRegistered(),
+                    rooms: rooms.getAvailableRooms(),
+                    gamesType: basicsGamesData.gamesName(),
+                    newRoomError: error
+                })
+            }
         } else {
             //Stworzenie pokoju
             rooms.addRoom(roomName, gameName, roomPassword).then(result => {

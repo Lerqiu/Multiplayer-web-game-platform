@@ -3,14 +3,16 @@
 <head>
     <title>Pokoje</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="rooms-css.css"> 
+    <link rel="stylesheet" href="rooms-css.css">
 </head>
 
 <body>
     <div class="mainContainer">
         <div class="topContainer">
             <div>
-                <button id="nickButton"  class="text"><%= locals.nick %> </button>
+                <button id="nickButton" class="text">
+                    <%= locals.nick %>
+                </button>
             </div>
 
             <% if ( locals.registered ){ %>
@@ -29,20 +31,20 @@
                         <%= locals.newRoomError %>
                     </span>
                 </div>
-            <% } %>
-            <form method="POST" class="text">
-                <label>Nazwa pokoju:</label>
-                <input type="text" name="name">
-                <br>
-                <label>Rodzaj gry:</label>
-                <!-- <input type="text" name="type"> -->
-                <%- include('./../templates/drop-down_list', {name:"type",options: locals.gamesType})  %> 
-                <br>
-                <label>Hasło (puste oznacza brak):</label>
-                <input type="text" name="password">
-                <br>
-                <input type="submit" value="Stwórz pokój">
-            </form>
+                <% } %>
+                    <form method="POST" class="text">
+                        <label>Nazwa pokoju:</label>
+                        <input type="text" name="name">
+                        <br>
+                        <label>Rodzaj gry:</label>
+                        <!-- <input type="text" name="type"> -->
+                        <%- include('./../templates/drop-down_list', {name:"type",options: locals.gamesType}) %>
+                            <br>
+                            <label>Hasło (puste oznacza brak):</label>
+                            <input type="text" name="password">
+                            <br>
+                            <input type="submit" value="Stwórz pokój">
+                    </form>
         </div>
         <div class="roomsContainer">
             <% for (let room of locals.rooms ){ %>
@@ -58,29 +60,29 @@
                             <%= room.presentPlayers() %> / <%= room.maxPlayers() %>
                         </div>
                         <div>
-                            Hasło: <%= room.isPasswordRequired() ? "Wymagane" : "Brak" %>  
+                            Hasło: <%= room.isPasswordRequired() ? "Wymagane" : "Brak" %>
                         </div>
                     </div>
                 </a>
                 <% } %>
         </div>
-<% if ( locals.registered ){ %>
-               <div class="roomsContainer">
-		<div class="text">
-           	Statystyki<br>
-		</div>
-		<div class="text">		
-		Wygrane: <%= locals.won %> <br>
-		</div>
-		<div class="text">
-		Przegrane: <%= locals.lost %> <br>
-		</div>
-		<div class="text">
-		Remisy: <%= locals.remis %> <br>
-		</div>
-        </div>
-                <% } %>
-	
+        <% if ( locals.registered ){ %>
+            <div class="roomsContainer">
+                <div class="text">
+                    Statystyki<br>
+                </div>
+                <div class="text">
+                    Wygrane: <%= locals.won %> <br>
+                </div>
+                <div class="text">
+                    Przegrane: <%= locals.lost %> <br>
+                </div>
+                <div class="text">
+                    Remisy: <%= locals.remis %> <br>
+                </div>
+            </div>
+            <% } %>
+
     </div>
 </body>
 

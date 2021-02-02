@@ -50,15 +50,16 @@ module.exports = class Users {
     getPassword(nick) {
         return this.data.get(nick).encryptedPassword
     }
-    getW(nick) {
-        return this.data.get(nick).won
+
+    async getStats(nick) {
+        if (this.data.hasUser(nick)) {
+            return { won: 0, lost: 0, remis: 0 }
+        } else {
+            console.log(`Brak użytkownika ${nick}. Zostaną zwrócone domyślne statystyki`)
+            return { won: 0, lost: 0, remis: 0 }
+        }
     }
-    getL(nick) {
-        return this.data.get(nick).lost
-    }
-    getR(nick) {
-        return this.data.get(nick).remis
-    }
+
     addW(nick) {
         try {
             if (this.hasUser(nick))
