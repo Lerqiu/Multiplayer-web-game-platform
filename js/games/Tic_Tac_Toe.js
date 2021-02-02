@@ -58,7 +58,7 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
 
     function changeStatOnYourself(user, fun) {
         try {
-            if (element.isRegistered()) {
+            if (user.isRegistered()) {
                 fun(user.getNick())
             }
         } catch (err) {
