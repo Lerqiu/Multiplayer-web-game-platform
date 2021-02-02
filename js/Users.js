@@ -82,7 +82,7 @@ module.exports = class Users {
             if (this.hasUser(nick)) {
                 let classObject = this;
                 (async function () {
-                    let stats = await this.getStats(nick);
+                    let stats = await classObject.getStats(nick);
                     await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
                 })()
             }
