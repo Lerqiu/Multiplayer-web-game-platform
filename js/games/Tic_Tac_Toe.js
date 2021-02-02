@@ -48,9 +48,10 @@ module.exports.socketDo = function (socket, io, room, user, rooms, users) {
                 } catch (err) {
                     console.log(err)
                 }
-                return "";
+               
             }
         });
+        return "";
     }
 
     function getYourselfNick(user) {
