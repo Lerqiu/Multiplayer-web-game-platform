@@ -42,13 +42,9 @@ module.exports.socketOnConnect = function (socket, io, room, user, rooms) {
 module.exports.socketDo = function (socket, io, room, user, rooms, users) {
     function getEnemyNick(user, allPlayers) {
         allPlayers.forEach(element => {
-            console.log("1")
             if (user.getNick() != element.getNick()) {
                 try {
-                    console.log(`W pokoju znajduje się: ${element.getNick()}`)
-                    if (users.hasUser(element.getNick())) {
-                        return element.getNick();
-                    }
+                    return element.getNick();
                 } catch (err) {
                     console.log(err)
                 }
