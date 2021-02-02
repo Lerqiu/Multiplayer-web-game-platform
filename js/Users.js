@@ -83,7 +83,7 @@ module.exports = class Users {
                 let classObject = this;
                 (async function () {
                     let stats = await classObject.getStats(nick);
-                    await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
+                    await classObject.client.query('UPDATE Stats SET lost = $2 WHERE Nick = $1;', [nick, stats.lost + 1]);
                 })()
             }
             console.log(`Przegrał gracz: ${nick}`)
@@ -97,7 +97,7 @@ module.exports = class Users {
                 let classObject = this;
                 (async function () {
                     let stats = await classObject.getStats(nick);
-                    await classObject.client.query('UPDATE Stats SET won = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
+                    await classObject.client.query('UPDATE Stats SET remis = $2 WHERE Nick = $1;', [nick, stats.remis + 1]);
                 })()
             }
             console.log(`Zremisował gracz: ${nick}`)
