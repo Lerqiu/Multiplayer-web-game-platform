@@ -60,6 +60,10 @@ module.exports = class Users {
         return this.data.get(nick).remis
     }
     addW(nick) {
+        console.log(nick)
+        console.log(this.hasUser(nick))
+        console.log(JSON.stringify(this.data.get(nick)))
+        console.log(this.data.get(nick).won)
         this.data.get(nick).won += 1;
     }
     addL(nick) {
