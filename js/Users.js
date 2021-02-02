@@ -122,6 +122,7 @@ module.exports = class Users {
         var remis = 0;
         try {
             await this.client.query(`INSERT INTO USERS (Nick,UserPassword) VALUES ($1,$2);`, [nick, encryptedPassword])
+            await this.client.query(`INSERT INTO STATS (Nick,won,lost,remis) VALUES ($1);`, [nick, 0, 0, 0])
             this.data.set(nick, { encryptedPassword, won, lost, remis, gameStats: [] })
         } catch (err) {
             console.log(err);
